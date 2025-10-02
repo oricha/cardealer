@@ -67,3 +67,7 @@ dump.rdb
 
 # MinIO data
 minio-data/
+
+# AI/Agent directories
+.kiro/
+.agent/
