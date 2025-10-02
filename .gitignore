@@ -1,0 +1,69 @@
+# Environment files
+.env
+.env.local
+.env.production
+.env.staging
+
+# Dependencies
+node_modules/
+target/
+
+# Build outputs
+.next/
+dist/
+build/
+
+# Logs
+*.log
+logs/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker
+.dockerignore
+
+# Database
+*.db
+*.sqlite
+
+# Temporary files
+tmp/
+temp/
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Spring Boot
+HELP.md
+
+# Redis dump
+dump.rdb
+
+# MinIO data
+minio-data/
