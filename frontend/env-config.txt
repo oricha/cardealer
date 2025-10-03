@@ -1,8 +1,0 @@
-# Frontend Environment Configuration
-# Copy this content to .env.local file in the frontend directory
-
-NEXT_PUBLIC_API_URL=http://localhost:8081/api
-NEXT_PUBLIC_APP_URL=http://localhost:3001
-NEXT_PUBLIC_JWT_ACCESS_TOKEN_EXPIRES_IN=15m
-NEXT_PUBLIC_JWT_REFRESH_TOKEN_EXPIRES_IN=7d
-NODE_ENV=development

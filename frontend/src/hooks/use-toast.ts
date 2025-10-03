@@ -78,6 +78,9 @@ export const reducer = (state: Toast[], action: any): Toast[] => {
         return [];
       }
       return state.filter((t) => t.id !== action.toastId);
+    
+    default:
+      return state;
   }
 };
 
@@ -137,7 +140,7 @@ function useToast() {
   }, [state]);
 
   return {
-    ...state,
+    toasts: state,
     toast,
     dismiss: (toastId?: string) => dispatch({ type: "DISMISS_TOAST", toastId }),
   };

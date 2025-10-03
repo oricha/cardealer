@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   message: string;
   data?: T;
@@ -47,7 +47,7 @@ class ApiClient {
             await this.refreshToken();
             // Retry the original request
             return this.client.request(error.config);
-          } catch (refreshError) {
+          } catch {
             // Refresh failed, redirect to login
             this.clearTokens();
             window.location.href = '/auth';
@@ -97,39 +97,39 @@ class ApiClient {
       } else {
         throw new Error('Token refresh failed');
       }
-    } catch (error) {
+    } catch {
       throw new Error('Token refresh failed');
     }
   }
 
   // Generic request methods
-  async get<T = any>(url: string, config?: any): Promise<ApiResponse<T>> {
+  async get<T = unknown>(url: string, config?: Record<string, unknown>): Promise<ApiResponse<T>> {
     const response: AxiosResponse<ApiResponse<T>> = await this.client.get(url, config);
     return response.data;
   }
 
-  async post<T = any>(url: string, data?: any, config?: any): Promise<ApiResponse<T>> {
+  async post<T = unknown>(url: string, data?: unknown, config?: Record<string, unknown>): Promise<ApiResponse<T>> {
     const response: AxiosResponse<ApiResponse<T>> = await this.client.post(url, data, config);
     return response.data;
   }
 
-  async put<T = any>(url: string, data?: any, config?: any): Promise<ApiResponse<T>> {
+  async put<T = unknown>(url: string, data?: unknown, config?: Record<string, unknown>): Promise<ApiResponse<T>> {
     const response: AxiosResponse<ApiResponse<T>> = await this.client.put(url, data, config);
     return response.data;
   }
 
-  async patch<T = any>(url: string, data?: any, config?: any): Promise<ApiResponse<T>> {
+  async patch<T = unknown>(url: string, data?: unknown, config?: Record<string, unknown>): Promise<ApiResponse<T>> {
     const response: AxiosResponse<ApiResponse<T>> = await this.client.patch(url, data, config);
     return response.data;
   }
 
-  async delete<T = any>(url: string, config?: any): Promise<ApiResponse<T>> {
+  async delete<T = unknown>(url: string, config?: Record<string, unknown>): Promise<ApiResponse<T>> {
     const response: AxiosResponse<ApiResponse<T>> = await this.client.delete(url, config);
     return response.data;
   }
 
   // Public API methods (no auth required)
-  async getPublic<T = any>(url: string, config?: any): Promise<ApiResponse<T>> {
+  async getPublic<T = unknown>(url: string, config?: Record<string, unknown>): Promise<ApiResponse<T>> {
     const response: AxiosResponse<ApiResponse<T>> = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}${url}`,
       config

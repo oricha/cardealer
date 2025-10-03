@@ -1,23 +1,29 @@
 # Multi-stage build for Spring Boot application
-FROM openjdk:17-jdk-slim as builder
+FROM eclipse-temurin:17-jdk as builder
 
 WORKDIR /app
-COPY pom.xml .
+COPY build.gradle .
+COPY settings.gradle .
+COPY gradle.properties .
 COPY src ./src
 
-# Install Maven
-RUN apt-get update && apt-get install -y maven
+# Copy Gradle wrapper
+COPY gradlew .
+COPY gradle ./gradle
+
+# Make gradlew executable
+RUN chmod +x gradlew
 
 # Build the application
-RUN mvn clean package -DskipTests
+RUN ./gradlew build -x test
 
 # Runtime stage
-FROM openjdk:17-jre-slim
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
 # Copy the built JAR from builder stage
-COPY --from=builder /app/target/*.jar app.jar
+COPY --from=builder /app/build/libs/*.jar app.jar
 
 # Create non-root user
 RUN addgroup --system spring && adduser --system spring --ingroup spring
