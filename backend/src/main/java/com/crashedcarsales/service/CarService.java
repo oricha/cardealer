@@ -375,6 +375,45 @@ public class CarService {
         return carRepository.countByDealerAndIsActive(dealer, true);
     }
 
+    /**
+     * Get all active cars with pagination
+     */
+    @Transactional(readOnly = true)
+    public Page<CarResponse> getAllActiveCars(Pageable pageable) {
+        logger.debug("Getting all active cars with pagination");
+
+        Page<Car> cars = carRepository.findByIsActiveTrue(pageable);
+
+        return cars.map(CarResponse::fromEntity);
+    }
+
+    /**
+     * Search cars with filters (public API version)
+     */
+    @Transactional(readOnly = true)
+    public Page<CarResponse> searchCarsWithFilters(
+            String make, String model, Car.FuelType fuelType, Car.Transmission transmission,
+            Car.VehicleType vehicleType, Car.Condition condition,
+            BigDecimal minPrice, BigDecimal maxPrice, Integer minYear, Integer maxYear,
+            Integer maxMileage, Pageable pageable) {
+
+        logger.debug("Searching cars with filters via public API");
+
+        Page<Car> cars = carRepository.findCarsWithFilters(
+            make, model, fuelType, transmission, vehicleType, condition,
+            minPrice, maxPrice, minYear, maxYear, maxMileage, pageable);
+
+        return cars.map(CarResponse::fromEntity);
+    }
+
+    /**
+     * Get similar cars (public API version)
+     */
+    @Transactional(readOnly = true)
+    public List<CarResponse> getSimilarCars(UUID carId) {
+        return findSimilarCars(carId, 10); // Default limit of 10
+    }
+
     // Helper methods
     private boolean hasAnyFeatureSet(CarCreateRequest request) {
         return request.getAirbags() != null && request.getAirbags() ||

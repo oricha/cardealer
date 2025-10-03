@@ -45,6 +45,9 @@ class CarServiceTest {
     @Mock
     private DealerRepository dealerRepository;
 
+    @Mock
+    private CacheService cacheService;
+
     @InjectMocks
     private CarService carService;
 
@@ -359,7 +362,7 @@ class CarServiceTest {
         // Given
         String searchText = "Toyota Camry";
         List<Car> cars = List.of(testCar);
-        when(carRepository.searchCarsByText(searchText, any(PageRequest.class))).thenReturn(cars);
+        when(carRepository.searchCarsByText(eq(searchText), any(PageRequest.class))).thenReturn(cars);
 
         // When
         List<CarResponse> result = carService.searchCarsByText(searchText, 10);
@@ -367,7 +370,7 @@ class CarServiceTest {
         // Then
         assertNotNull(result);
         assertEquals(1, result.size());
-        verify(carRepository).searchCarsByText(searchText, any(PageRequest.class));
+        verify(carRepository).searchCarsByText(eq(searchText), any(PageRequest.class));
     }
 
     @Test

@@ -1,0 +1,81 @@
+spring:
+  application:
+    name: crashed-car-sales-backend-test
+  
+  profiles:
+    active: test
+  
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+  
+  flyway:
+    enabled: false
+  
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 
+      timeout: 2000ms
+  
+  cache:
+    type: simple
+    redis:
+      enabled: false
+  
+  mail:
+    host: localhost
+    port: 587
+    username: test@example.com
+    password: test
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+server:
+  port: 0
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    com.crashedcarsales: WARN
+    org.springframework.security: WARN
+    org.springframework.test: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# Custom application properties
+app:
+  jwt:
+    secret: testSecretKeyForTestingPurposesOnly
+    expiration: 86400000 # 24 hours
+    refresh-expiration: 604800000 # 7 days
+  
+  cors:
+    allowed-origins: http://localhost:3000
+  
+  storage:
+    type: local
+    local:
+      upload-dir: /tmp/test-uploads
+    
+  cdn:
+    base-url: http://localhost:8080/api/images
+
+

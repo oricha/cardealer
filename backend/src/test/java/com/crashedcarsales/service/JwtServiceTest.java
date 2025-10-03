@@ -21,7 +21,7 @@ class JwtServiceTest {
     private JwtService jwtService;
 
     private User testUser;
-    private String testSecret = "dGVzdC1zZWNyZXQta2V5LWZvci1qd3QtdG9rZW4tZ2VuZXJhdGlvbi1hbmQtdmFsaWRhdGlvbi10ZXN0aW5n";
+    private String testSecret = "dGVzdC1zZWNyZXQta2V5LWZvci1qd3QtdG9rZW4tZ2VuZXJhdGlvbi1hbmQtdmFsaWRhdGlvbi10ZXN0aW5nLTEyMzQ1Njc4OTA=";
     private Long testExpiration = 3600000L; // 1 hour
     private Long testRefreshExpiration = 604800000L; // 7 days
 
@@ -52,7 +52,7 @@ class JwtServiceTest {
 
         // Verify token contains correct claims
         assertEquals(testUser.getEmail(), jwtService.extractUsername(token));
-        assertEquals(testUser.getId().toString(), jwtService.extractUserId(token));
+        assertEquals(testUser.getId(), jwtService.extractUserId(token));
         assertEquals(testUser.getRole(), jwtService.extractUserRole(token));
     }
 
@@ -67,7 +67,7 @@ class JwtServiceTest {
 
         // Verify token contains correct claims
         assertEquals(testUser.getEmail(), jwtService.extractUsername(token));
-        assertEquals(testUser.getId().toString(), jwtService.extractUserId(token));
+        assertEquals(testUser.getId(), jwtService.extractUserId(token));
         assertEquals(testUser.getRole(), jwtService.extractUserRole(token));
     }
 
@@ -189,7 +189,7 @@ class JwtServiceTest {
 
         // Verify new token has correct claims
         assertEquals(testUser.getEmail(), jwtService.extractUsername(newAccessToken));
-        assertEquals(testUser.getId().toString(), jwtService.extractUserId(newAccessToken));
+        assertEquals(testUser.getId(), jwtService.extractUserId(newAccessToken));
         assertEquals(testUser.getRole(), jwtService.extractUserRole(newAccessToken));
     }
 

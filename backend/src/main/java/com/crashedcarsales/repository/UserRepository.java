@@ -102,4 +102,25 @@ public interface UserRepository extends JpaRepository<User, UUID> {
      */
     @Query(value = "SELECT * FROM users ORDER BY created_at DESC LIMIT :limit", nativeQuery = true)
     List<User> findRecentlyCreatedUsers(@Param("limit") int limit);
+
+    /**
+     * Count active users
+     * @return number of active users
+     */
+    long countByIsActiveTrue();
+
+    /**
+     * Count active users by role
+     * @param role the role to count
+     * @param isActive the active status
+     * @return number of active users with the specified role
+     */
+    long countByRoleAndIsActiveTrue(User.Role role);
+
+    /**
+     * Find users by email containing pattern (case-insensitive)
+     * @param emailPattern the email pattern to search for
+     * @return List of users matching the email pattern
+     */
+    List<User> findByEmailContainingIgnoreCase(String emailPattern);
 }

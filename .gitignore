@@ -71,3 +71,4 @@ minio-data/
 # AI/Agent directories
 .kiro/
 .agent/
+/backend/.gradle/

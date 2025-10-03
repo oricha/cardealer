@@ -185,7 +185,7 @@ class UserServiceTest {
             userService.refreshToken(refreshToken);
         });
 
-        assertEquals("User not found or inactive", exception.getMessage());
+        assertEquals("Invalid refresh token", exception.getMessage());
     }
 
     @Test

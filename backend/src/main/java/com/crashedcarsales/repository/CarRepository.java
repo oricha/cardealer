@@ -177,4 +177,14 @@ public interface CarRepository extends JpaRepository<Car, UUID> {
            "LOWER(c.description) LIKE LOWER(CONCAT('%', :searchText, '%'))) AND " +
            "c.isActive = true")
     List<Car> searchCarsByText(@Param("searchText") String searchText, Pageable pageable);
+
+    /**
+     * Count active cars
+     */
+    long countByIsActiveTrue();
+
+    /**
+     * Find active cars with pagination
+     */
+    Page<Car> findByIsActiveTrue(Pageable pageable);
 }
