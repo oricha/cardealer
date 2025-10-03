@@ -1,15 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { Navigation } from "@/components/layout/Navigation";
-import { Footer } from "@/components/layout/Footer";
+import { TemplateLayout } from "@/components/layout/TemplateLayout";
 import { Toaster } from "@/components/ui/Toaster";
 import { AuthProvider } from "@/contexts/AuthContext";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
 
 export const metadata: Metadata = {
   title: "Crashed Car Sales - Quality Salvage Vehicles",
@@ -56,18 +49,41 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
-      <body className={`${inter.variable} font-sans antialiased min-h-full bg-background`}>
+    <html lang="en">
+      <head>
+        <link rel="icon" type="image/x-icon" href="/assets/img/logo/favicon.png" />
+        {/* Template CSS */}
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/css/all-fontawesome.min.css" />
+        <link rel="stylesheet" href="/assets/css/flaticon.css" />
+        <link rel="stylesheet" href="/assets/css/animate.min.css" />
+        <link rel="stylesheet" href="/assets/css/magnific-popup.min.css" />
+        <link rel="stylesheet" href="/assets/css/owl.carousel.min.css" />
+        <link rel="stylesheet" href="/assets/css/jquery-ui.min.css" />
+        <link rel="stylesheet" href="/assets/css/nice-select.min.css" />
+        <link rel="stylesheet" href="/assets/css/style.css" />
+      </head>
+      <body>
         <AuthProvider>
-          <div className="relative flex min-h-screen flex-col">
-            <Navigation />
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
-          </div>
+          <TemplateLayout>
+            {children}
+          </TemplateLayout>
         </AuthProvider>
         <Toaster />
+        
+        {/* Template Scripts */}
+        <script src="/assets/js/jquery-3.6.0.min.js"></script>
+        <script src="/assets/js/bootstrap.bundle.min.js"></script>
+        <script src="/assets/js/jquery-ui.min.js"></script>
+        <script src="/assets/js/jquery.easing.min.js"></script>
+        <script src="/assets/js/jquery.nice-select.min.js"></script>
+        <script src="/assets/js/jquery.magnific-popup.min.js"></script>
+        <script src="/assets/js/owl.carousel.min.js"></script>
+        <script src="/assets/js/flex-slider.js"></script>
+        <script src="/assets/js/counter-up.js"></script>
+        <script src="/assets/js/jquery.appear.min.js"></script>
+        <script src="/assets/js/wow.min.js"></script>
+        <script src="/assets/js/main.js"></script>
       </body>
     </html>
   );

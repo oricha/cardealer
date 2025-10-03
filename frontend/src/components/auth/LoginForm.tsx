@@ -4,11 +4,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/lib/utils/toast';
-import { Eye, EyeOff, Loader2 } from 'lucide-react';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -54,80 +51,69 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleMode }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2 text-center">
-        <h2 className="text-2xl font-bold">Sign In</h2>
-        <p className="text-muted-foreground">
-          Enter your credentials to access your account
-        </p>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="form-group">
+        <label>Email Address</label>
+        <input 
+          type="email" 
+          className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+          placeholder="Your Email"
+          {...register('email')}
+        />
+        {errors.email && (
+          <div className="invalid-feedback">{errors.email.message}</div>
+        )}
       </div>
-
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium">
-            Email
-          </label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            {...register('email')}
-            className={errors.email ? 'border-destructive' : ''}
+      
+      <div className="form-group">
+        <label>Password</label>
+        <div className="password-input">
+          <input 
+            type={showPassword ? 'text' : 'password'}
+            className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+            placeholder="Your Password"
+            {...register('password')}
           />
-          {errors.email && (
-            <p className="text-sm text-destructive">{errors.email.message}</p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="password" className="text-sm font-medium">
-            Password
-          </label>
-          <div className="relative">
-            <Input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Enter your password"
-              {...register('password')}
-              className={errors.password ? 'border-destructive pr-10' : 'pr-10'}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            >
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
-          </div>
-          {errors.password && (
-            <p className="text-sm text-destructive">{errors.password.message}</p>
-          )}
-        </div>
-
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Signing in...
-            </>
-          ) : (
-            'Sign In'
-          )}
-        </Button>
-      </form>
-
-      <div className="text-center">
-        <p className="text-sm text-muted-foreground">
-          Don't have an account?{' '}
           <button
             type="button"
-            onClick={onToggleMode}
-            className="text-primary hover:underline font-medium"
+            className="password-toggle"
+            onClick={() => setShowPassword(!showPassword)}
           >
-            Sign up
+            <i className={`far ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
           </button>
-        </p>
+        </div>
+        {errors.password && (
+          <div className="invalid-feedback">{errors.password.message}</div>
+        )}
       </div>
-    </div>
+      
+      <div className="d-flex justify-content-between mb-4">
+        <div className="form-check">
+          <input className="form-check-input" type="checkbox" value="" id="remember" />
+          <label className="form-check-label" htmlFor="remember">
+            Remember Me
+          </label>
+        </div>
+        <a href="#" className="forgot-pass">Forgot Password?</a>
+      </div>
+      
+      <div className="d-flex align-items-center">
+        <button 
+          type="submit" 
+          className="theme-btn w-100"
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <>
+              <i className="far fa-spinner fa-spin"></i> Logging in...
+            </>
+          ) : (
+            <>
+              <i className="far fa-sign-in"></i> Login
+            </>
+          )}
+        </button>
+      </div>
+    </form>
   );
 };
