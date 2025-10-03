@@ -1,9 +1,11 @@
 package com.crashedcarsales.security;
 
 import com.crashedcarsales.service.UserService;
+import com.crashedcarsales.config.RateLimitInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -31,11 +33,14 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final UserService userService;
+    private final RateLimitInterceptor rateLimitInterceptor;
 
     @Autowired
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter, UserService userService) {
+    public SecurityConfig(@Lazy JwtAuthenticationFilter jwtAuthFilter, @Lazy UserService userService,
+                         RateLimitInterceptor rateLimitInterceptor) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.userService = userService;
+        this.rateLimitInterceptor = rateLimitInterceptor;
     }
 
     @Bean

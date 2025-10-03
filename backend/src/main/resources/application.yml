@@ -6,7 +6,7 @@ spring:
     active: ${SPRING_PROFILES_ACTIVE:dev}
   
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/crashed_car_sales}
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5433/crashed_car_sales}
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
@@ -25,17 +25,17 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
   
-  data:
-    redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
-      password: ${REDIS_PASSWORD:}
-      timeout: 2000ms
+  # data:
+  #   redis:
+  #     host: ${REDIS_HOST:localhost}
+  #     port: ${REDIS_PORT:6379}
+  #     password: ${REDIS_PASSWORD:}
+  #     timeout: 2000ms
   
-  cache:
-    type: redis
-    redis:
-      time-to-live: 600000
+  # cache:
+  #   type: redis
+  #   redis:
+  #     time-to-live: 600000
   
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
@@ -69,7 +69,7 @@ app:
     refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000} # 7 days
   
   cors:
-    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3001}
   
   storage:
     type: ${STORAGE_TYPE:s3} # s3 or minio
@@ -82,6 +82,18 @@ app:
     
   cdn:
     base-url: ${CDN_BASE_URL:https://cdn.example.com}
+
+  # OpenAPI/Swagger configuration
+  openapi:
+    title: "Crashed Car Sales API"
+    description: "Public API for accessing car listings and dealer information"
+    version: "1.0.0"
+    contact:
+      name: "Crashed Car Sales Support"
+      email: "support@crashedcarsales.com"
+    license:
+      name: "MIT"
+      url: "https://opensource.org/licenses/MIT"
 
 ---
 spring:

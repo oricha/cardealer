@@ -10,23 +10,23 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     ports:
-      - "5432:5432"
+      - "5433:5432"  # Puerto 5433 para PostgreSQL
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
     networks:
       - crashed-car-sales-network
 
-  # Redis Cache
-  redis:
-    image: redis:7-alpine
-    container_name: crashed-car-sales-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    networks:
-      - crashed-car-sales-network
+  # Redis Cache - COMMENTED OUT
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: crashed-car-sales-redis
+  #   ports:
+  #     - "6381:6379"  # Puerto 6381 para Redis
+  #   volumes:
+  #     - redis_data:/data
+  #   networks:
+  #     - crashed-car-sales-network
 
   # MinIO (S3-compatible storage)
   minio:
@@ -55,17 +55,17 @@ services:
       DATABASE_URL: jdbc:postgresql://postgres:5432/crashed_car_sales
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: password
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
+      # REDIS_HOST: redis
+      # REDIS_PORT: 6379
       S3_ENDPOINT: http://minio:9000
       S3_ACCESS_KEY: minioadmin
       S3_SECRET_KEY: minioadmin123
       S3_BUCKET: crashed-car-sales
     ports:
-      - "8080:8080"
+      - "8081:8080"  # Puerto 8081 para Spring Boot
     depends_on:
       - postgres
-      - redis
+      # - redis
       - minio
     networks:
       - crashed-car-sales-network
@@ -77,10 +77,10 @@ services:
       dockerfile: Dockerfile
     container_name: crashed-car-sales-frontend
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8080/api
+      NEXT_PUBLIC_API_URL: http://localhost:8081/api  # Actualizado para usar puerto 8081
       NEXT_PUBLIC_CDN_URL: http://localhost:9000
     ports:
-      - "3000:3000"
+      - "3001:3000"  # Puerto 3001 para Next.js
     depends_on:
       - backend
     networks:
@@ -88,7 +88,7 @@ services:
 
 volumes:
   postgres_data:
-  redis_data:
+  # redis_data:
   minio_data:
 
 networks:

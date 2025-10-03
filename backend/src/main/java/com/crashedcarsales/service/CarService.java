@@ -36,19 +36,20 @@ public class CarService {
     private final CarImageRepository carImageRepository;
     private final CarFeaturesRepository carFeaturesRepository;
     private final DealerRepository dealerRepository;
-    private final CacheService cacheService;
+    // private final CacheService cacheService;
 
     @Autowired
     public CarService(CarRepository carRepository,
                      CarImageRepository carImageRepository,
                      CarFeaturesRepository carFeaturesRepository,
-                     DealerRepository dealerRepository,
-                     CacheService cacheService) {
+                     DealerRepository dealerRepository
+                     // CacheService cacheService
+                     ) {
         this.carRepository = carRepository;
         this.carImageRepository = carImageRepository;
         this.carFeaturesRepository = carFeaturesRepository;
         this.dealerRepository = dealerRepository;
-        this.cacheService = cacheService;
+        // this.cacheService = cacheService;
     }
 
     /**
@@ -106,10 +107,10 @@ public class CarService {
         }
 
         // Invalidate search and featured caches since new car was added
-        cacheService.invalidateSearchCaches();
-        if (Boolean.TRUE.equals(savedCar.getIsFeatured())) {
-            cacheService.evict("featured-cars", "all");
-        }
+        // cacheService.invalidateSearchCaches();
+        // if (Boolean.TRUE.equals(savedCar.getIsFeatured())) {
+        //     cacheService.evict("featured-cars", "all");
+        // }
 
         return CarResponse.fromEntity(savedCar);
     }
@@ -189,7 +190,7 @@ public class CarService {
         Car savedCar = carRepository.save(car);
 
         // Invalidate related caches
-        cacheService.invalidateCarCaches(carId.toString());
+        // cacheService.invalidateCarCaches(carId.toString());
 
         logger.info("Car updated successfully with ID: {}", savedCar.getId());
 
@@ -210,7 +211,7 @@ public class CarService {
         carRepository.save(car);
 
         // Invalidate related caches
-        cacheService.invalidateCarCaches(carId.toString());
+        // cacheService.invalidateCarCaches(carId.toString());
 
         logger.info("Car deleted successfully with ID: {}", carId);
     }
