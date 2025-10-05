@@ -6,6 +6,7 @@ import { Car } from '@/types/car';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Card, CardContent, CardFooter } from '@/components/ui/Card';
+import { FavoriteButton } from '@/components/favorites/FavoriteButton';
 import {
   Car as CarIcon,
   Fuel,
@@ -21,15 +22,11 @@ import { useState } from 'react';
 interface CarCardProps {
   car: Car;
   viewMode?: 'grid' | 'list';
-  onFavoriteToggle?: (carId: string) => void;
-  isFavorited?: boolean;
 }
 
 export const CarCard: React.FC<CarCardProps> = ({
   car,
   viewMode = 'grid',
-  onFavoriteToggle,
-  isFavorited = false,
 }) => {
   const [imageError, setImageError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -157,15 +154,7 @@ export const CarCard: React.FC<CarCardProps> = ({
                 </div>
 
                 <div className="flex gap-2">
-                  {onFavoriteToggle && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onFavoriteToggle(car.id)}
-                    >
-                      <Heart className={`h-4 w-4 ${isFavorited ? 'fill-red-500 text-red-500' : ''}`} />
-                    </Button>
-                  )}
+                  <FavoriteButton car={car} variant="icon" size="sm" />
                   <Button asChild>
                     <Link href={`/cars/${car.id}`}>
                       View Details
@@ -215,16 +204,9 @@ export const CarCard: React.FC<CarCardProps> = ({
           </div>
 
           {/* Favorite button */}
-          {onFavoriteToggle && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity"
-              onClick={() => onFavoriteToggle(car.id)}
-            >
-              <Heart className={`h-4 w-4 ${isFavorited ? 'fill-red-500 text-red-500' : ''}`} />
-            </Button>
-          )}
+          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+            <FavoriteButton car={car} variant="icon" size="sm" />
+          </div>
 
           {/* Price overlay */}
           <div className="absolute bottom-3 right-3">

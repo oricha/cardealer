@@ -1,0 +1,192 @@
+{
+  "name": "crashed-car-sales",
+  "description": "Crashed Car Sales - Full-stack marketplace for crashed and used vehicles",
+  "version": "1.0.0",
+  "type": "application",
+
+  "services": {
+    "postgres": {
+      "type": "postgres",
+      "version": "15",
+      "credentials": {
+        "database": "crashed_car_sales",
+        "username": "postgres",
+        "password": "${POSTGRES_PASSWORD}"
+      },
+      "resources": {
+        "cpu": 0.5,
+        "memory": "1GB"
+      },
+      "volumes": [
+        {
+          "name": "postgres_data",
+          "size": "10GB"
+        }
+      ]
+    },
+
+    "redis": {
+      "type": "redis",
+      "version": "7",
+      "credentials": {
+        "password": "${REDIS_PASSWORD}"
+      },
+      "resources": {
+        "cpu": 0.25,
+        "memory": "512MB"
+      }
+    },
+
+    "minio": {
+      "type": "minio",
+      "credentials": {
+        "rootUser": "${MINIO_ROOT_USER}",
+        "rootPassword": "${MINIO_ROOT_PASSWORD}"
+      },
+      "resources": {
+        "cpu": 0.5,
+        "memory": "1GB"
+      },
+      "volumes": [
+        {
+          "name": "minio_data",
+          "size": "20GB"
+        }
+      ]
+    },
+
+    "backend": {
+      "type": "spring-boot",
+      "build": {
+        "context": "./backend",
+        "dockerfile": "Dockerfile"
+      },
+      "environment": {
+        "SPRING_PROFILES_ACTIVE": "prod",
+        "DATABASE_URL": "jdbc:postgresql://postgres:5432/crashed_car_sales",
+        "REDIS_HOST": "redis",
+        "REDIS_PORT": "6379",
+        "S3_ENDPOINT": "http://minio:9000",
+        "LOG_LEVEL": "INFO"
+      },
+      "resources": {
+        "cpu": 1,
+        "memory": "2GB"
+      },
+      "healthCheck": {
+        "path": "/api/actuator/health",
+        "port": 8080,
+        "interval": 30
+      },
+      "dependsOn": ["postgres", "redis", "minio"]
+    },
+
+    "frontend": {
+      "type": "nextjs",
+      "build": {
+        "context": "./frontend",
+        "dockerfile": "Dockerfile"
+      },
+      "environment": {
+        "NEXT_PUBLIC_API_URL": "http://backend:8080/api",
+        "NEXT_PUBLIC_CDN_URL": "http://minio:9000",
+        "NODE_ENV": "production"
+      },
+      "resources": {
+        "cpu": 0.5,
+        "memory": "1GB"
+      },
+      "healthCheck": {
+        "path": "/api/health",
+        "port": 3000,
+        "interval": 30
+      },
+      "dependsOn": ["backend"]
+    },
+
+    "nginx": {
+      "type": "nginx",
+      "domains": ["${DOMAIN_NAME}"],
+      "ports": [80, 443],
+      "ssl": {
+        "enabled": true,
+        "email": "${SSL_EMAIL}",
+        "provider": "letsencrypt"
+      },
+      "dependsOn": ["frontend", "backend"]
+    },
+
+    "prometheus": {
+      "type": "prometheus",
+      "resources": {
+        "cpu": 0.5,
+        "memory": "1GB"
+      },
+      "volumes": [
+        {
+          "name": "prometheus_data",
+          "size": "5GB"
+        }
+      ]
+    },
+
+    "grafana": {
+      "type": "grafana",
+      "adminPassword": "${GRAFANA_PASSWORD}",
+      "resources": {
+        "cpu": 0.5,
+        "memory": "1GB"
+      },
+      "volumes": [
+        {
+          "name": "grafana_data",
+          "size": "5GB"
+        }
+      ]
+    }
+  },
+
+  "networks": [
+    {
+      "name": "crashed-car-sales-network",
+      "driver": "bridge"
+    }
+  ],
+
+  "monitoring": {
+    "enabled": true,
+    "alerts": {
+      "email": "${ALERT_EMAIL}",
+      "slack": "${SLACK_WEBHOOK_URL}"
+    },
+    "dashboards": {
+      "application": true,
+      "infrastructure": true,
+      "business": true
+    }
+  },
+
+  "backups": {
+    "enabled": true,
+    "schedule": "0 2 * * *",
+    "retention": "30d",
+    "destinations": [
+      {
+        "type": "s3",
+        "bucket": "${BACKUP_BUCKET}",
+        "region": "${AWS_REGION}",
+        "credentials": {
+          "accessKey": "${AWS_ACCESS_KEY}",
+          "secretKey": "${AWS_SECRET_KEY}"
+        }
+      }
+    ]
+  },
+
+  "scaling": {
+    "minReplicas": 1,
+    "maxReplicas": 5,
+    "targetCpuUtilization": 70,
+    "targetMemoryUtilization": 80
+  }
+}

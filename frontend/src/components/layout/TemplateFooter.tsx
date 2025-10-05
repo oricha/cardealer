@@ -175,3 +175,4 @@ export function TemplateFooter() {
     </footer>
   );
 }
+

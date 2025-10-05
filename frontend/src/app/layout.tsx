@@ -3,6 +3,8 @@ import "./globals.css";
 import { TemplateLayout } from "@/components/layout/TemplateLayout";
 import { Toaster } from "@/components/ui/Toaster";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { FavoritesProvider } from "@/contexts/FavoritesContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Crashed Car Sales - Quality Salvage Vehicles",
@@ -65,9 +67,13 @@ export default function RootLayout({
       </head>
       <body>
         <AuthProvider>
-          <TemplateLayout>
-            {children}
-          </TemplateLayout>
+          <LanguageProvider>
+            <FavoritesProvider>
+              <TemplateLayout>
+                {children}
+              </TemplateLayout>
+            </FavoritesProvider>
+          </LanguageProvider>
         </AuthProvider>
         <Toaster />
         

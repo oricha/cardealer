@@ -160,7 +160,7 @@ class PublicApiControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.error").value("CAR_NOT_FOUND"))
+                .andExpect(jsonPath("$.errorCode").value("CAR_NOT_FOUND"))
                 .andExpect(jsonPath("$.message").value("Car not found"));
 
         verify(carService).getCarById(nonExistentId);
@@ -410,7 +410,7 @@ class PublicApiControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.error").value("INTERNAL_ERROR"))
+                .andExpect(jsonPath("$.errorCode").value("INTERNAL_ERROR"))
                 .andExpect(jsonPath("$.message").value("Failed to retrieve cars"));
 
         verify(carService).getAllActiveCars(any());
@@ -429,7 +429,7 @@ class PublicApiControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.error").value("SEARCH_ERROR"))
+                .andExpect(jsonPath("$.errorCode").value("SEARCH_ERROR"))
                 .andExpect(jsonPath("$.message").value("Search failed"));
 
         verify(carService).searchCarsWithFilters(any(), any(), any(), any(), any(), any(),

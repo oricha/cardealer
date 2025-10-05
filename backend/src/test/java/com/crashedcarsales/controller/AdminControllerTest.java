@@ -5,21 +5,30 @@ import com.crashedcarsales.dto.AdminUserResponse;
 import com.crashedcarsales.dto.UserStatusUpdateRequest;
 import com.crashedcarsales.entity.User;
 import com.crashedcarsales.service.AdminService;
+import com.crashedcarsales.security.JwtAuthenticationFilter;
+import com.crashedcarsales.service.UserService;
+import com.crashedcarsales.config.RateLimitInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,17 +39,44 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(MockitoExtension.class)
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+
+@WebMvcTest(AdminController.class)
+@ImportAutoConfiguration(exclude = {
+    DataSourceAutoConfiguration.class,
+    HibernateJpaAutoConfiguration.class,
+    JpaRepositoriesAutoConfiguration.class
+})
+@Import(AdminControllerTest.TestSecurityConfig.class)
 class AdminControllerTest {
 
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
     private AdminService adminService;
 
-    @InjectMocks
-    private AdminController adminController;
+    @MockBean
+    private RateLimitInterceptor rateLimitInterceptor;
 
-    private MockMvc mockMvc;
-    private ObjectMapper objectMapper;
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @MockBean
+    private UserService userService;
+
+    @MockBean
+    private JpaMetamodelMappingContext jpaMetamodelMappingContext;
     private User testUser;
     private AdminUserResponse adminUserResponse;
     private AdminStatsResponse adminStatsResponse;
@@ -48,8 +84,6 @@ class AdminControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
-        objectMapper = new ObjectMapper();
         testUserId = UUID.randomUUID();
 
         // Create test user
@@ -278,6 +312,38 @@ class AdminControllerTest {
         // and return 401, but for this test we'll just verify the endpoint exists
         mockMvc.perform(get("/api/admin/users")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden()); // Spring Security returns 403 for unauthenticated users accessing protected endpoints
+                .andExpect(status().isUnauthorized());
+    }
+
+    @TestConfiguration
+    @EnableMethodSecurity(prePostEnabled = true)
+    static class TestSecurityConfig {
+
+        @Bean
+        SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+            http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                    .anyRequest().permitAll()
+                )
+                .httpBasic(Customizer.withDefaults());
+            return http.build();
+        }
+
+        @Bean
+        UserDetailsService userDetailsService() {
+            UserDetails admin = org.springframework.security.core.userdetails.User
+                .withUsername("admin")
+                .password("{noop}password")
+                .roles("ADMIN")
+                .build();
+            UserDetails regular = org.springframework.security.core.userdetails.User
+                .withUsername("user")
+                .password("{noop}password")
+                .roles("USER")
+                .build();
+            return new InMemoryUserDetailsManager(admin, regular);
+        }
     }
 }

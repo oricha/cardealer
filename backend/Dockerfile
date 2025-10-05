@@ -1,5 +1,5 @@
 # Multi-stage build for Spring Boot application
-FROM eclipse-temurin:17-jdk as builder
+FROM eclipse-temurin:21-jdk as builder
 
 WORKDIR /app
 COPY build.gradle .
@@ -18,7 +18,7 @@ RUN chmod +x gradlew
 RUN ./gradlew build -x test
 
 # Runtime stage
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
