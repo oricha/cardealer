@@ -1,10 +1,19 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
+import { CarCard } from '@/components/cars/CarCard';
+import { SearchFilters } from '@/components/cars/SearchFilters';
+import { Button } from '@/components/ui/Button';
 import { Car, CarSearchRequest, CarFilters, PaginatedResponse } from '@/types/car';
 import { carService } from '@/lib/api/cars';
 import { toast } from '@/lib/utils/toast';
+import {
+  Grid3X3,
+  List,
+  Loader2,
+  SlidersHorizontal,
+  X
+} from 'lucide-react';
 
 export default function CarsPage() {
   const [cars, setCars] = useState<Car[]>([]);
@@ -15,6 +24,19 @@ export default function CarsPage() {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Available filters (in a real app, this would come from an API)
+  const [availableFilters] = useState<CarFilters>({
+    makes: ['Toyota', 'Honda', 'Ford', 'Chevrolet', 'BMW', 'Mercedes-Benz', 'Audi', 'Nissan'],
+    models: ['Camry', 'Civic', 'F-150', 'Silverado', '3 Series', 'C-Class', 'A4', 'Altima'],
+    fuelTypes: ['GAS', 'DIESEL', 'HYBRID', 'ELECTRIC'],
+    transmissions: ['MANUAL', 'AUTOMATIC', 'CVT'],
+    vehicleTypes: ['PASSENGER', 'TRUCK', 'VAN', 'MOTOR'],
+    conditions: ['USED', 'DAMAGED', 'ACCIDENTED', 'DERELICT'],
+    priceRange: { min: 1000, max: 50000 },
+    yearRange: { min: 2000, max: 2024 },
+  });
 
   const [filters, setFilters] = useState<CarSearchRequest>({
     page: 0,
@@ -53,10 +75,12 @@ export default function CarsPage() {
     }
   }, []);
 
+  // Initial load
   useEffect(() => {
     loadCars(filters);
   }, []);
 
+  // Reload when filters change
   useEffect(() => {
     if (currentPage === 0) {
       loadCars({ ...filters, page: 0 });
@@ -70,6 +94,10 @@ export default function CarsPage() {
     setFilters(newFilters);
   };
 
+  const handleViewModeChange = (mode: 'grid' | 'list') => {
+    setViewMode(mode);
+  };
+
   const loadMore = () => {
     if (currentPage < totalPages - 1) {
       const nextPage = currentPage + 1;
@@ -78,268 +106,167 @@ export default function CarsPage() {
     }
   };
 
+  const clearError = () => {
+    setError(null);
+  };
+
   return (
-    <main className="main">
-      {/* Breadcrumb */}
-      <div className="breadcrumb-area">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="breadcrumb-wrap">
-                <nav aria-label="breadcrumb">
-                  <ul className="breadcrumb">
-                    <li className="breadcrumb-item">
-                      <Link href="/">Home</Link>
-                    </li>
-                    <li className="breadcrumb-item active" aria-current="page">
-                      Cars
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
-          </div>
+    <div className="container mx-auto px-4 py-8">
+      <div className="space-y-8">
+        {/* Header */}
+        <div className="text-center space-y-4">
+          <h1 className="text-3xl lg:text-4xl font-bold">Browse Cars</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Find your perfect salvage vehicle from our extensive inventory
+          </p>
         </div>
-      </div>
 
-      {/* Page Header */}
-      <div className="page-header-area">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="page-header-content">
-                <h2 className="page-title">Browse Cars</h2>
-                <p className="page-subtitle">
-                  Find your perfect salvage vehicle from our extensive inventory
-                </p>
-              </div>
+        {/* Search and Filters */}
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Filters Sidebar - Desktop */}
+          <aside className="hidden lg:block w-80 flex-shrink-0">
+            <div className="sticky top-8">
+              <SearchFilters
+                filters={filters}
+                availableFilters={availableFilters}
+                onFiltersChange={handleFiltersChange}
+                isLoading={isLoading}
+              />
             </div>
-          </div>
-        </div>
-      </div>
+          </aside>
 
-      {/* Inventory Section */}
-      <div className="inventory-area py-120">
-        <div className="container">
-          <div className="row">
-            {/* Sidebar */}
-            <div className="col-lg-4">
-              <div className="sidebar">
-                <div className="widget">
-                  <h4 className="widget-title">Search Filters</h4>
-                  <form className="search-form">
-                    <div className="form-group">
-                      <label>Make</label>
-                      <select 
-                        className="form-control"
-                        value={filters.make || ''}
-                        onChange={(e) => setFilters({...filters, make: e.target.value})}
-                      >
-                        <option value="">All Makes</option>
-                        <option value="Toyota">Toyota</option>
-                        <option value="Honda">Honda</option>
-                        <option value="Ford">Ford</option>
-                        <option value="Chevrolet">Chevrolet</option>
-                        <option value="BMW">BMW</option>
-                        <option value="Mercedes-Benz">Mercedes-Benz</option>
-                        <option value="Audi">Audi</option>
-                        <option value="Nissan">Nissan</option>
-                      </select>
-                    </div>
-                    
-                    <div className="form-group">
-                      <label>Condition</label>
-                      <select 
-                        className="form-control"
-                        value={filters.condition || ''}
-                        onChange={(e) => setFilters({...filters, condition: e.target.value})}
-                      >
-                        <option value="">All Conditions</option>
-                        <option value="USED">Used</option>
-                        <option value="DAMAGED">Damaged</option>
-                        <option value="ACCIDENTED">Accidented</option>
-                        <option value="DERELICT">Derelict</option>
-                      </select>
-                    </div>
-
-                    <div className="form-group">
-                      <label>Price Range</label>
-                      <select 
-                        className="form-control"
-                        value={filters.maxPrice ? `0-${filters.maxPrice}` : ''}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          if (value) {
-                            const maxPrice = parseInt(value.split('-')[1]);
-                            setFilters({...filters, maxPrice});
-                          } else {
-                            setFilters({...filters, maxPrice: undefined});
-                          }
-                        }}
-                      >
-                        <option value="">All Prices</option>
-                        <option value="0-5000">$0 - $5,000</option>
-                        <option value="0-10000">$0 - $10,000</option>
-                        <option value="0-20000">$0 - $20,000</option>
-                        <option value="0-50000">$0 - $50,000</option>
-                      </select>
-                    </div>
-
-                    <div className="form-group">
-                      <label>Year</label>
-                      <select 
-                        className="form-control"
-                        value={filters.minYear || ''}
-                        onChange={(e) => setFilters({...filters, minYear: e.target.value ? parseInt(e.target.value) : undefined})}
-                      >
-                        <option value="">All Years</option>
-                        <option value="2020">2020+</option>
-                        <option value="2015">2015+</option>
-                        <option value="2010">2010+</option>
-                        <option value="2005">2005+</option>
-                      </select>
-                    </div>
-
-                    <button type="button" className="theme-btn w-100">
-                      <i className="far fa-search"></i> Search
-                    </button>
-                  </form>
-                </div>
-              </div>
+          {/* Main Content */}
+          <main className="flex-1 space-y-6">
+            {/* Mobile Filter Toggle */}
+            <div className="lg:hidden">
+              <Button
+                variant="outline"
+                onClick={() => setShowFilters(!showFilters)}
+                className="w-full"
+              >
+                <SlidersHorizontal className="h-4 w-4 mr-2" />
+                Filters
+                {Object.keys(filters).length > 2 && (
+                  <span className="ml-2 bg-primary text-primary-foreground rounded-full px-2 py-1 text-xs">
+                    Active
+                  </span>
+                )}
+              </Button>
             </div>
 
-            {/* Main Content */}
-            <div className="col-lg-8">
-              <div className="inventory-content">
-                {/* Header */}
-                <div className="inventory-header">
-                  <div className="row align-items-center">
-                    <div className="col-md-6">
-                      <div className="inventory-info">
-                        <h4>Showing {cars.length} of {totalElements} cars</h4>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="inventory-view">
-                        <div className="view-toggle">
-                          <button 
-                            className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
-                            onClick={() => setViewMode('grid')}
-                          >
-                            <i className="far fa-th"></i>
-                          </button>
-                          <button 
-                            className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
-                            onClick={() => setViewMode('list')}
-                          >
-                            <i className="far fa-list"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+            {/* Mobile Filters */}
+            {showFilters && (
+              <div className="lg:hidden">
+                <SearchFilters
+                  filters={filters}
+                  availableFilters={availableFilters}
+                  onFiltersChange={handleFiltersChange}
+                  isLoading={isLoading}
+                />
+              </div>
+            )}
+
+            {/* Controls */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                {/* View Mode Toggle */}
+                <div className="flex border rounded-lg">
+                  <Button
+                    variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => handleViewModeChange('grid')}
+                  >
+                    <Grid3X3 className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant={viewMode === 'list' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => handleViewModeChange('list')}
+                  >
+                    <List className="h-4 w-4" />
+                  </Button>
                 </div>
 
-                {/* Loading State */}
-                {isLoading && (
-                  <div className="text-center py-5">
-                    <div className="spinner"></div>
-                    <p>Loading cars...</p>
-                  </div>
-                )}
-
-                {/* Error State */}
-                {error && (
-                  <div className="alert alert-danger">
-                    <p>{error}</p>
-                  </div>
-                )}
-
-                {/* Cars Grid/List */}
-                {!isLoading && cars.length > 0 && (
-                  <>
-                    <div className={`inventory-grid ${viewMode === 'list' ? 'list-view' : ''}`}>
-                      {cars.map((car) => (
-                        <div key={car.id} className="inventory-item">
-                          <div className="inventory-item-img">
-                            <Link href={`/cars/${car.id}`}>
-                              <img 
-                                src={car.images?.[0]?.imageUrl || '/assets/img/car/01.jpg'} 
-                                alt={`${car.make} ${car.model}`}
-                              />
-                            </Link>
-                            <div className="inventory-item-badge">
-                              <span className="badge">{car.condition}</span>
-                            </div>
-                          </div>
-                          <div className="inventory-item-content">
-                            <div className="inventory-item-meta">
-                              <span className="inventory-item-meta-item">
-                                <i className="far fa-calendar"></i>
-                                {car.year}
-                              </span>
-                              <span className="inventory-item-meta-item">
-                                <i className="far fa-gauge"></i>
-                                {car.mileage?.toLocaleString()} mi
-                              </span>
-                              <span className="inventory-item-meta-item">
-                                <i className="far fa-cog"></i>
-                                {car.transmission}
-                              </span>
-                            </div>
-                            <h4 className="inventory-item-title">
-                              <Link href={`/cars/${car.id}`}>
-                                {car.make} {car.model}
-                              </Link>
-                            </h4>
-                            <p className="inventory-item-desc">
-                              {car.description?.substring(0, 100)}...
-                            </p>
-                            <div className="inventory-item-bottom">
-                              <div className="inventory-item-price">
-                                <span className="price">${car.price.toLocaleString()}</span>
-                              </div>
-                              <div className="inventory-item-btn">
-                                <Link href={`/cars/${car.id}`} className="theme-btn">
-                                  View Details
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Load More */}
-                    {currentPage < totalPages - 1 && (
-                      <div className="text-center mt-4">
-                        <button 
-                          className="theme-btn"
-                          onClick={loadMore}
-                          disabled={isLoadingMore}
-                        >
-                          {isLoadingMore ? 'Loading...' : 'Load More Cars'}
-                        </button>
-                      </div>
-                    )}
-                  </>
-                )}
-
-                {/* Empty State */}
-                {!isLoading && !error && cars.length === 0 && (
-                  <div className="text-center py-5">
-                    <div className="empty-state">
-                      <i className="far fa-car fa-3x mb-3"></i>
-                      <h4>No cars found</h4>
-                      <p>Try adjusting your search filters</p>
-                    </div>
-                  </div>
-                )}
+                {/* Results Count */}
+                <span className="text-sm text-muted-foreground">
+                  {totalElements} vehicles found
+                </span>
               </div>
             </div>
-          </div>
+
+            {/* Error State */}
+            {error && (
+              <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-destructive">{error}</p>
+                  <Button variant="outline" size="sm" onClick={clearError}>
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Loading State */}
+            {isLoading && (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin" />
+                <span className="ml-2">Loading cars...</span>
+              </div>
+            )}
+
+            {/* Cars Grid/List */}
+            {!isLoading && cars.length > 0 && (
+              <>
+                <div
+                  className={
+                    viewMode === 'grid'
+                      ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6'
+                      : 'space-y-4'
+                  }
+                >
+                  {cars.map((car) => (
+                    <CarCard
+                      key={car.id}
+                      car={car}
+                      viewMode={viewMode}
+                    />
+                  ))}
+                </div>
+
+                {/* Load More Button */}
+                {currentPage < totalPages - 1 && (
+                  <div className="text-center">
+                    <Button
+                      onClick={loadMore}
+                      disabled={isLoadingMore}
+                      size="lg"
+                    >
+                      {isLoadingMore ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Loading...
+                        </>
+                      ) : (
+                        'Load More Cars'
+                      )}
+                    </Button>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Empty State */}
+            {!isLoading && !error && cars.length === 0 && (
+              <div className="text-center py-12">
+                <div className="text-muted-foreground">
+                  <p className="text-lg mb-2">No cars found</p>
+                  <p className="text-sm">Try adjusting your search filters</p>
+                </div>
+              </div>
+            )}
+          </main>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

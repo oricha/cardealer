@@ -20,16 +20,16 @@ INSERT INTO dealers (id, user_id, name, address, phone, website) VALUES
 -- Insert comprehensive car data with varied conditions and prices
 INSERT INTO cars (id, dealer_id, make, model, year, fuel_type, transmission, vehicle_type, condition, price, mileage, description, is_featured, is_active) VALUES
 
--- Metro Salvage Yard cars (dealer 104)
-('650e8400-e29b-41d4-a716-446655440205', '650e8400-e29b-41d4-a716-446655440104', 'Chevrolet', 'Malibu', 2017, 'GAS', 'AUTOMATIC', 'PASSENGER', 'DAMAGED', 7200.00, 52000, 'Left side impact, good engine, transmission intact', false, true),
-('650e8400-e29b-41d4-a716-446655440206', '650e8400-e29b-41d4-a716-446655440104', 'Nissan', 'Altima', 2019, 'GAS', 'CVT', 'PASSENGER', 'USED', 13500.00, 28000, 'Minor fender bender, clean interior, drives perfectly', true, true),
-('650e8400-e29b-41d4-a716-446655440207', '650e8400-e29b-41d4-a716-446655440104', 'Volkswagen', 'Jetta', 2016, 'DIESEL', 'MANUAL', 'PASSENGER', 'ACCIDENTED', 5800.00, 89000, 'Rear-end collision, extensive frame damage, parts vehicle', false, true),
-('650e8400-e29b-41d4-a716-446655440208', '650e8400-e29b-41d4-a716-446655440104', 'Mazda', 'CX-5', 2020, 'GAS', 'AUTOMATIC', 'PASSENGER', 'DAMAGED', 18200.00, 15000, 'Front quarter panel damage, low mileage, excellent condition otherwise', true, true),
+-- City Auto Salvage cars (dealer 102)
+('650e8400-e29b-41d4-a716-446655440205', '550e8400-e29b-41d4-a716-446655440102', 'Chevrolet', 'Malibu', 2017, 'GAS', 'AUTOMATIC', 'PASSENGER', 'DAMAGED', 7200.00, 52000, 'Left side impact, good engine, transmission intact', false, true),
+('650e8400-e29b-41d4-a716-446655440206', '550e8400-e29b-41d4-a716-446655440102', 'Nissan', 'Altima', 2019, 'GAS', 'CVT', 'PASSENGER', 'USED', 13500.00, 28000, 'Minor fender bender, clean interior, drives perfectly', true, true),
+('650e8400-e29b-41d4-a716-446655440207', '550e8400-e29b-41d4-a716-446655440102', 'Volkswagen', 'Jetta', 2016, 'DIESEL', 'MANUAL', 'PASSENGER', 'ACCIDENTED', 5800.00, 89000, 'Rear-end collision, extensive frame damage, parts vehicle', false, true),
+('650e8400-e29b-41d4-a716-446655440208', '550e8400-e29b-41d4-a716-446655440102', 'Mazda', 'CX-5', 2020, 'GAS', 'AUTOMATIC', 'PASSENGER', 'DAMAGED', 18200.00, 15000, 'Front quarter panel damage, low mileage, excellent condition otherwise', true, true),
 
--- Luxury Auto Parts cars (dealer 105)
-('650e8400-e29b-41d4-a716-446655440209', '650e8400-e29b-41d4-a716-446655440105', 'Mercedes-Benz', 'C-Class', 2018, 'GAS', 'AUTOMATIC', 'PASSENGER', 'USED', 22500.00, 35000, 'Luxury sedan with minor cosmetic damage, pristine interior', true, true),
-('650e8400-e29b-41d4-a716-446655440210', '650e8400-e29b-41d4-a716-446655440105', 'Audi', 'A4', 2019, 'GAS', 'AUTOMATIC', 'PASSENGER', 'DAMAGED', 19800.00, 22000, 'Driver side damage, premium sound system, navigation included', false, true),
-('650e8400-e29b-41d4-a716-446655440211', '650e8400-e29b-41d4-a716-446655440105', 'Lexus', 'RX', 2017, 'HYBRID', 'AUTOMATIC', 'PASSENGER', 'ACCIDENTED', 16500.00, 67000, 'Rollover damage, hybrid system intact, valuable for parts', false, true),
+-- Premium Wreckers cars (dealer 103)
+('650e8400-e29b-41d4-a716-446655440209', '550e8400-e29b-41d4-a716-446655440103', 'Mercedes-Benz', 'C-Class', 2018, 'GAS', 'AUTOMATIC', 'PASSENGER', 'USED', 22500.00, 35000, 'Luxury sedan with minor cosmetic damage, pristine interior', true, true),
+('650e8400-e29b-41d4-a716-446655440210', '550e8400-e29b-41d4-a716-446655440103', 'Audi', 'A4', 2019, 'GAS', 'AUTOMATIC', 'PASSENGER', 'DAMAGED', 19800.00, 22000, 'Driver side damage, premium sound system, navigation included', false, true),
+('650e8400-e29b-41d4-a716-446655440211', '550e8400-e29b-41d4-a716-446655440103', 'Lexus', 'RX', 2017, 'HYBRID', 'AUTOMATIC', 'PASSENGER', 'ACCIDENTED', 16500.00, 67000, 'Rollover damage, hybrid system intact, valuable for parts', false, true),
 
 -- Metro Salvage Yard cars (dealer 104)
 ('650e8400-e29b-41d4-a716-446655440212', '650e8400-e29b-41d4-a716-446655440104', 'Subaru', 'Outback', 2018, 'GAS', 'CVT', 'PASSENGER', 'USED', 14200.00, 48000, 'All-wheel drive wagon, minor rear damage, excellent mechanical condition', true, true),
@@ -50,13 +50,13 @@ INSERT INTO cars (id, dealer_id, make, model, year, fuel_type, transmission, veh
 
 -- Add car features for all new cars
 INSERT INTO car_features (car_id, airbags, abs_brakes, air_conditioning, power_steering, central_locking, electric_windows) VALUES
--- Metro Salvage Yard cars
+-- City Auto Salvage cars
 ('650e8400-e29b-41d4-a716-446655440205', true, true, true, true, true, true),
 ('650e8400-e29b-41d4-a716-446655440206', true, true, true, true, true, true),
 ('650e8400-e29b-41d4-a716-446655440207', true, false, true, true, false, true),
 ('650e8400-e29b-41d4-a716-446655440208', true, true, true, true, true, true),
 
--- Luxury Auto Parts cars
+-- Premium Wreckers cars
 ('650e8400-e29b-41d4-a716-446655440209', true, true, true, true, true, true),
 ('650e8400-e29b-41d4-a716-446655440210', true, true, true, true, true, true),
 ('650e8400-e29b-41d4-a716-446655440211', true, true, true, true, true, true),
@@ -80,13 +80,13 @@ INSERT INTO car_features (car_id, airbags, abs_brakes, air_conditioning, power_s
 
 -- Add car images for all new cars (using placeholder URLs)
 INSERT INTO car_images (car_id, image_url, alt_text, display_order) VALUES
--- Metro Salvage Yard cars
+-- City Auto Salvage cars
 ('650e8400-e29b-41d4-a716-446655440205', 'https://via.placeholder.com/800x600?text=Chevrolet+Malibu+2017', '2017 Chevrolet Malibu - Front View', 1),
 ('650e8400-e29b-41d4-a716-446655440206', 'https://via.placeholder.com/800x600?text=Nissan+Altima+2019', '2019 Nissan Altima - Front View', 1),
 ('650e8400-e29b-41d4-a716-446655440207', 'https://via.placeholder.com/800x600?text=VW+Jetta+2016', '2016 Volkswagen Jetta - Front View', 1),
 ('650e8400-e29b-41d4-a716-446655440208', 'https://via.placeholder.com/800x600?text=Mazda+CX-5+2020', '2020 Mazda CX-5 - Front View', 1),
 
--- Luxury Auto Parts cars
+-- Premium Wreckers cars
 ('650e8400-e29b-41d4-a716-446655440209', 'https://via.placeholder.com/800x600?text=Mercedes+C-Class+2018', '2018 Mercedes-Benz C-Class - Front View', 1),
 ('650e8400-e29b-41d4-a716-446655440210', 'https://via.placeholder.com/800x600?text=Audi+A4+2019', '2019 Audi A4 - Front View', 1),
 ('650e8400-e29b-41d4-a716-446655440211', 'https://via.placeholder.com/800x600?text=Lexus+RX+2017', '2017 Lexus RX - Front View', 1),
