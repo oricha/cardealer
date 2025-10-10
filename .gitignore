@@ -96,5 +96,7 @@ minio-data/
 .kiro/
 .agent/
 /backend/.gradle/*
+.gradle/
+**/build/
 /backend/bin/*
 /template/*
