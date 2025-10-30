@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- title -->
+    <title>Compare Cars - Car Dealer</title>
+
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" th:href="@{/img/logo/favicon.png}">
+
+    <!-- css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/all-fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.min.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/css/nice-select.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+    <!-- preloader -->
+    <div class="preloader">
+        <div class="loader-ripple">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- preloader end -->
+
+
+    <!-- header area -->
+    <header class="header">
+        <!-- top header -->
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-wrapper">
+                    <div class="header-top-left">
+                        <div class="header-top-contact">
+                            <ul>
+                                <li><a href="mailto:info@example.com"><i class="far fa-envelopes"></i>
+                                        info@example.com</a></li>
+                                <li><a href="tel:+21236547898"><i class="far fa-phone-volume"></i> +2 123 654 7898</a>
+                                </li>
+                                <li><a href="#"><i class="far fa-alarm-clock"></i> Sun - Fri (08AM - 10PM)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="header-top-right">
+                        <div class="header-top-link">
+                            <a th:href="@{/login}"><i class="far fa-arrow-right-to-arc"></i> Login</a>
+                            <a th:href="@{/register}"><i class="far fa-user-vneck"></i> Register</a>
+                        </div>
+                        <div class="header-top-social">
+                            <span>Follow Us: </span>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-navigation">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container position-relative">
+                    <a class="navbar-brand" th:href="@{/}">
+                        <img th:src="@{/img/logo/logo.png}" alt="logo">
+                    </a>
+                    <div class="mobile-menu-right">
+                        <div class="search-btn">
+                            <button type="button" class="nav-right-link"><i class="far fa-search"></i></button>
+                        </div>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-mobile-icon"><i class="far fa-bars"></i></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="main_nav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" th:href="@{/about}">About</a></li>
+                            <li class="nav-item"><a class="nav-link active" th:href="@{/cars}">Inventory</a></li>
+                            <li class="nav-item"><a class="nav-link" th:href="@{/dealers}">Dealers</a></li>
+                            <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Contact</a></li>
+                        </ul>
+                        <div class="nav-right">
+                            <div class="search-btn">
+                                <button type="button" class="nav-right-link"><i class="far fa-search"></i></button>
+                            </div>
+                            <div class="nav-right-btn mt-2">
+                                <a th:href="@{/dashboard/listings/add}" class="theme-btn"><span class="far fa-plus-circle"></span>Add Listing</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- header area end -->
+
+
+    <main class="main">
+
+        <!-- breadcrumb -->
+        <div class="site-breadcrumb" style="background: url(/img/breadcrumb/01.jpg)">
+            <div class="container">
+                <h2 class="breadcrumb-title">Compare Cars</h2>
+                <ul class="breadcrumb-menu">
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li><a th:href="@{/cars}">Inventory</a></li>
+                    <li class="active">Compare</li>
+                </ul>
+            </div>
+        </div>
+        <!-- breadcrumb end -->
+
+
+        <!-- compare area -->
+        <div class="compare-area py-120">
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table table-bordered compare-table">
+                        <tbody>
+                            <tr>
+                                <th></th>
+                                <td th:each="car : ${cars}">
+                                    <img class="compare-img" 
+                                         th:src="@{${car.images != null && !car.images.isEmpty()} ? '/uploads/' + ${car.images[0]} : '/img/car/01.jpg'}" 
+                                         th:alt="${car.make + ' ' + car.model}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Title</th>
+                                <td th:each="car : ${cars}">
+                                    <h5 class="compare-title">
+                                        <a th:href="@{/cars/{id}(id=${car.id})}" 
+                                           th:text="${car.make + ' ' + car.model}">Car Title</a>
+                                    </h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Condition</th>
+                                <td th:each="car : ${cars}">
+                                    <span class="badge" 
+                                          th:classappend="${car.condition.name() == 'NUEVO'} ? 'new' : 'used'"
+                                          th:text="${car.condition}">New</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Body Type</th>
+                                <td th:each="car : ${cars}">
+                                    <span th:text="${car.bodyType}">Sedan</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Make Brand</th>
+                                <td th:each="car : ${cars}">
+                                    <span th:text="${car.make}">Mercedes</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Build Year</th>
+                                <td th:each="car : ${cars}">
+                                    <span th:text="${car.year}">2021</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Fuel Type</th>
+                                <td th:each="car : ${cars}">
+                                    <span th:text="${car.fuelType}">Diesel</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Color</th>
+                                <td th:each="car : ${cars}">
+                                    <span th:text="${car.color}">White</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Mileage</th>
+                                <td th:each="car : ${cars}">
+                                    <span th:text="${car.mileage + ' km'}">18,500 km</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Price</th>
+                                <td th:each="car : ${cars}">
+                                    <span class="compare-price" 
+                                          th:text="${#numbers.formatDecimal(car.price, 0, 'COMMA', 2, 'POINT')} + ' €'">$65,785</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Transmission</th>
+                                <td th:each="car : ${cars}">
+                                    <span th:text="${car.transmission}">Automatic</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Engine Size</th>
+                                <td th:each="car : ${cars}">
+                                    <span th:text="${car.engine != null ? car.engine : 'N/A'}">5.2L</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Doors</th>
+                                <td th:each="car : ${cars}">
+                                    <span th:text="${car.doors != null ? car.doors : 'N/A'}">4</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Action</th>
+                                <td th:each="car : ${cars}">
+                                    <a th:href="@{/cars/{id}(id=${car.id})}" class="theme-btn compare-btn">
+                                        <span class="far fa-eye"></span>View Details
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-4">
+                    <a th:href="@{/cars}" class="theme-btn">
+                        <span class="far fa-arrow-left"></span> Back to Inventory
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- compare area end -->
+
+    </main>
+
+
+
+    <!-- footer area -->
+    <footer class="footer-area">
+        <div class="footer-widget">
+            <div class="container">
+                <div class="row footer-widget-wrapper pt-100 pb-70">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="footer-widget-box about-us">
+                            <a href="#" class="footer-logo">
+                                <img th:src="@{/img/logo/logo-light.png}" alt="">
+                            </a>
+                            <p class="mb-3">
+                                We are many variations of passages available but the majority have suffered alteration
+                                in some form by injected humour words believable.
+                            </p>
+                            <ul class="footer-contact">
+                                <li><a href="tel:+21236547898"><i class="far fa-phone"></i>+2 123 654 7898</a></li>
+                                <li><i class="far fa-map-marker-alt"></i>25/B Milford Road, New York</li>
+                                <li><a href="mailto:info@example.com"><i
+                                            class="far fa-envelope"></i>info@example.com</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-2">
+                        <div class="footer-widget-box list">
+                            <h4 class="footer-widget-title">Quick Links</h4>
+                            <ul class="footer-list">
+                                <li><a href="#"><i class="fas fa-caret-right"></i> About Us</a></li>
+                                <li><a href="#"><i class="fas fa-caret-right"></i> Update News</a></li>
+                                <li><a href="#"><i class="fas fa-caret-right"></i> Testimonials</a></li>
+                                <li><a href="#"><i class="fas fa-caret-right"></i> Terms Of Service</a></li>
+                                <li><a href="#"><i class="fas fa-caret-right"></i> Privacy policy</a></li>
+                                <li><a href="#"><i class="fas fa-caret-right"></i> Our Dealers</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="footer-widget-box list">
+                            <h4 class="footer-widget-title">Support Center</h4>
+                            <ul class="footer-list">
+                                <li><a href="#"><i class="fas fa-caret-right"></i> FAQ's</a></li>
+                                <li><a href="#"><i class="fas fa-caret-right"></i> Affiliates</a></li>
+                                <li><a href="#"><i class="fas fa-caret-right"></i> Booking Tips</a></li>
+                                <li><a href="#"><i class="fas fa-caret-right"></i> Sell Vehicles</a></li>
+                                <li><a href="#"><i class="fas fa-caret-right"></i> Contact Us</a></li>
+                                <li><a href="#"><i class="fas fa-caret-right"></i> Sitemap</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="footer-widget-box list">
+                            <h4 class="footer-widget-title">Newsletter</h4>
+                            <div class="footer-newsletter">
+                                <p>Subscribe Our Newsletter To Get Latest Update And News</p>
+                                <div class="subscribe-form">
+                                    <form action="#">
+                                        <input type="email" class="form-control" placeholder="Your Email">
+                                        <button class="theme-btn" type="submit">
+                                            Subscribe Now <i class="far fa-paper-plane"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 align-self-center">
+                        <p class="copyright-text">
+                            &copy; Copyright <span id="date"></span> <a href="#"> MOTEX </a> All Rights Reserved.
+                        </p>
+                    </div>
+                    <div class="col-md-6 align-self-center">
+                        <ul class="footer-social">
+                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                            <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- footer area end -->
+
+
+
+
+    <!-- scroll-top -->
+    <a href="#" id="scroll-top"><i class="far fa-arrow-up"></i></a>
+    <!-- scroll-top end -->
+
+
+    <!-- js -->
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/js/modernizr.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/imagesloaded.pkgd.min.js}"></script>
+    <script th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script th:src="@{/js/isotope.pkgd.min.js}"></script>
+    <script th:src="@{/js/jquery.appear.min.js}"></script>
+    <script th:src="@{/js/jquery.easing.min.js}"></script>
+    <script th:src="@{/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/counter-up.js}"></script>
+    <script th:src="@{/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{/js/wow.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+
+</body>
+
+</html>

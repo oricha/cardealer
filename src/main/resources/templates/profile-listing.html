@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head('Mis Listados - Portal de Coches')}"></head>
+
+<body>
+    <nav th:replace="~{fragments/header :: navbar}"></nav>
+    <div class="preloader">
+        <div class="loader-ripple"><div></div><div></div></div>
+    </div>
+
+    <main class="main">
+        <div class="site-breadcrumb" style="background: url(/img/breadcrumb/01.jpg)">
+            <div class="container">
+                <h2 class="breadcrumb-title">Mis Listados</h2>
+                <ul class="breadcrumb-menu">
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/dashboard}">Dashboard</a></li>
+                    <li class="active">Mis Listados</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="user-profile py-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="user-profile-wrapper">
+                            <div class="user-profile-card profile-ad">
+                                <div class="user-profile-card-header">
+                                    <h4 class="user-profile-card-title">Mis Listados</h4>
+                                    <div class="user-profile-card-header-right">
+                                        <a th:href="@{/dashboard/listings/add}" class="theme-btn">
+                                            <span class="far fa-plus-circle"></span> Añadir Listado
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                                <!-- Success/Error Messages -->
+                                <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <span th:text="${success}"></span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <span th:text="${error}"></span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                                
+                                <div class="col-lg-12">
+                                    <div class="table-responsive">
+                                        <table class="table text-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>Información del Coche</th>
+                                                    <th>Marca</th>
+                                                    <th>Publicado</th>
+                                                    <th>Precio</th>
+                                                    <th>Vistas</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:if="${cars == null or cars.isEmpty()}">
+                                                    <td colspan="7" class="text-center py-5">
+                                                        <p class="text-muted">No tienes listados aún.</p>
+                                                        <a th:href="@{/dashboard/listings/add}" class="theme-btn mt-3">
+                                                            <span class="far fa-plus-circle"></span> Crear Primer Listado
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr th:each="car : ${cars}">
+                                                    <td>
+                                                        <div class="table-list-info">
+                                                            <a th:href="@{/cars/{id}(id=${car.id})}">
+                                                                <img th:if="${car.images != null and !car.images.isEmpty()}" 
+                                                                     th:src="@{'/uploads/' + ${car.images[0]}}" 
+                                                                     alt="Car image"
+                                                                     style="width: 80px; height: 60px; object-fit: cover;">
+                                                                <img th:unless="${car.images != null and !car.images.isEmpty()}" 
+                                                                     th:src="@{/img/car/01.jpg}" 
+                                                                     alt="No image"
+                                                                     style="width: 80px; height: 60px; object-fit: cover;">
+                                                                <div class="table-list-content">
+                                                                    <h6 th:text="${car.make + ' ' + car.model}">Car Name</h6>
+                                                                    <span th:text="'ID: #' + ${car.id}">Car ID</span>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td th:text="${car.make}">Brand</td>
+                                                    <td th:text="${#temporals.format(car.createdAt, 'dd/MM/yyyy')}">Date</td>
+                                                    <td th:text="${#numbers.formatDecimal(car.price, 0, 2)} + ' €'">Price</td>
+                                                    <td th:text="${car.views}">Views</td>
+                                                    <td>
+                                                        <span th:if="${car.active}" class="badge badge-success">Activo</span>
+                                                        <span th:unless="${car.active}" class="badge badge-danger">Inactivo</span>
+                                                    </td>
+                                                    <td>
+                                                        <a th:href="@{/cars/{id}(id=${car.id})}" 
+                                                           class="btn btn-outline-secondary btn-sm rounded-2" 
+                                                           data-bs-toggle="tooltip" 
+                                                           title="Ver Detalles">
+                                                            <i class="far fa-eye"></i>
+                                                        </a>
+                                                        <a th:href="@{/dashboard/listings/edit/{id}(id=${car.id})}" 
+                                                           class="btn btn-outline-secondary btn-sm rounded-2" 
+                                                           data-bs-toggle="tooltip" 
+                                                           title="Editar">
+                                                            <i class="far fa-pen"></i>
+                                                        </a>
+                                                        <form th:action="@{/dashboard/listings/delete/{id}(id=${car.id})}" 
+                                                              method="post" 
+                                                              style="display: inline;"
+                                                              onsubmit="return confirm('¿Estás seguro de que quieres eliminar este listado?');">
+                                                            <button type="submit" 
+                                                                    class="btn btn-outline-danger btn-sm rounded-2" 
+                                                                    data-bs-toggle="tooltip" 
+                                                                    title="Eliminar">
+                                                                <i class="far fa-trash-can"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+
+    <div th:replace="~{fragments/footer :: scroll-top}"></div>
+
+    <div th:replace="~{fragments/header :: scripts}"></div>
+    <script>
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+</body>
+</html>

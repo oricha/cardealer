@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit} ? 'Editar Listado' : 'Añadir Listado'">Añadir Listado</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/img/logo/favicon.png}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/all-fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div class="preloader">
+        <div class="loader-ripple"><div></div><div></div></div>
+    </div>
+
+    <main class="main">
+        <div class="site-breadcrumb" style="background: url(/img/breadcrumb/01.jpg)">
+            <div class="container">
+                <h2 class="breadcrumb-title" th:text="${isEdit} ? 'Editar Listado' : 'Añadir Listado'">Añadir Listado</h2>
+                <ul class="breadcrumb-menu">
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/dashboard}">Dashboard</a></li>
+                    <li class="active" th:text="${isEdit} ? 'Editar' : 'Añadir'">Añadir</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="user-profile py-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="user-profile-wrapper">
+                            <div class="user-profile-card">
+                                <h4 class="user-profile-card-title" th:text="${isEdit} ? 'Editar Listado' : 'Añadir Nuevo Listado'">Añadir Nuevo Listado</h4>
+                                
+                                <!-- Success/Error Messages -->
+                                <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <span th:text="${success}"></span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <span th:text="${error}"></span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                                
+                                <div class="col-lg-12">
+                                    <div class="add-listing-form">
+                                        <form th:action="${isEdit} ? @{/dashboard/listings/edit/{id}(id=${carId})} : @{/dashboard/listings/add}" 
+                                              method="post" 
+                                              th:object="${carDTO}" 
+                                              enctype="multipart/form-data">
+                                            
+                                            <h6 class="mb-3">Información Básica</h6>
+                                            <div class="row align-items-center">
+                                                <!-- Brand -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Marca *</label>
+                                                        <input type="text" class="form-control" th:field="*{brand}" 
+                                                               placeholder="Ej: BMW, Mercedes" required>
+                                                        <span class="text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Model -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Modelo *</label>
+                                                        <input type="text" class="form-control" th:field="*{model}" 
+                                                               placeholder="Ej: Serie 3, Clase C" required>
+                                                        <span class="text-danger" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Year -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Año *</label>
+                                                        <input type="number" class="form-control" th:field="*{year}" 
+                                                               placeholder="2023" min="1900" max="2025" required>
+                                                        <span class="text-danger" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Price -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Precio (€) *</label>
+                                                        <input type="number" class="form-control" th:field="*{price}" 
+                                                               placeholder="25000" step="0.01" required>
+                                                        <span class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Mileage -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Kilometraje</label>
+                                                        <input type="number" class="form-control" th:field="*{mileage}" 
+                                                               placeholder="50000">
+                                                        <span class="text-danger" th:if="${#fields.hasErrors('mileage')}" th:errors="*{mileage}"></span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Condition -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Condición *</label>
+                                                        <select class="form-control" th:field="*{condition}" required>
+                                                            <option value="">Seleccionar</option>
+                                                            <option th:each="cond : ${conditions}" 
+                                                                    th:value="${cond.name()}" 
+                                                                    th:text="${cond.name()}">NUEVO</option>
+                                                        </select>
+                                                        <span class="text-danger" th:if="${#fields.hasErrors('condition')}" th:errors="*{condition}"></span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Body Type -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Tipo de Carrocería</label>
+                                                        <select class="form-control" th:field="*{bodyType}">
+                                                            <option value="">Seleccionar</option>
+                                                            <option th:each="type : ${bodyTypes}" 
+                                                                    th:value="${type.name()}" 
+                                                                    th:text="${type.name()}">SEDAN</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Transmission -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Transmisión *</label>
+                                                        <select class="form-control" th:field="*{transmission}" required>
+                                                            <option value="">Seleccionar</option>
+                                                            <option th:each="trans : ${transmissions}" 
+                                                                    th:value="${trans.name()}" 
+                                                                    th:text="${trans.name()}">MANUAL</option>
+                                                        </select>
+                                                        <span class="text-danger" th:if="${#fields.hasErrors('transmission')}" th:errors="*{transmission}"></span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Fuel Type -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Tipo de Combustible *</label>
+                                                        <select class="form-control" th:field="*{fuelType}" required>
+                                                            <option value="">Seleccionar</option>
+                                                            <option th:each="fuel : ${fuelTypes}" 
+                                                                    th:value="${fuel.name()}" 
+                                                                    th:text="${fuel.name()}">GASOLINA</option>
+                                                        </select>
+                                                        <span class="text-danger" th:if="${#fields.hasErrors('fuelType')}" th:errors="*{fuelType}"></span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Color -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Color</label>
+                                                        <input type="text" class="form-control" th:field="*{color}" 
+                                                               placeholder="Rojo, Blanco, Negro">
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Doors -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Puertas</label>
+                                                        <input type="number" class="form-control" th:field="*{doors}" 
+                                                               placeholder="4" min="2" max="6">
+                                                        <span class="text-danger" th:if="${#fields.hasErrors('doors')}" th:errors="*{doors}"></span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Engine -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Motor</label>
+                                                        <input type="text" class="form-control" th:field="*{engine}" 
+                                                               placeholder="2.0 TDI">
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Description -->
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label>Descripción</label>
+                                                        <textarea class="form-control" th:field="*{description}" 
+                                                                  placeholder="Descripción detallada del vehículo" 
+                                                                  rows="5"></textarea>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Features -->
+                                                <h6 class="fw-bold mt-4 mb-3">Características</h6>
+                                                <div th:each="feature, iterStat : ${availableFeatures}" class="col-6 col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" 
+                                                               th:field="*{features}" 
+                                                               th:value="${feature}" 
+                                                               th:id="'feature' + ${iterStat.index}">
+                                                        <label class="form-check-label" th:for="'feature' + ${iterStat.index}" th:text="${feature}">
+                                                            Feature
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Images -->
+                                                <h6 class="fw-bold mt-4 mb-3">Imágenes</h6>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label>Subir Imágenes *</label>
+                                                        <input type="file" class="form-control" name="imageFiles" 
+                                                               multiple accept="image/*" th:required="${!isEdit}">
+                                                        <small class="form-text text-muted">Formatos permitidos: JPG, PNG, WebP. Máximo 10MB por imagen.</small>
+                                                    </div>
+                                                    
+                                                    <!-- Show existing images when editing -->
+                                                    <div th:if="${isEdit and carDTO.existingImages != null and !carDTO.existingImages.isEmpty()}" class="mt-3">
+                                                        <label>Imágenes Actuales:</label>
+                                                        <div class="row">
+                                                            <div th:each="img : ${carDTO.existingImages}" class="col-md-3 mb-2">
+                                                                <img th:src="@{'/uploads/' + ${img}}" class="img-thumbnail" alt="Car image">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Submit Button -->
+                                                <div class="col-lg-12 mt-4">
+                                                    <button type="submit" class="theme-btn">
+                                                        <span class="far fa-save"></span> 
+                                                        <span th:text="${isEdit} ? 'Actualizar Listado' : 'Guardar y Publicar'">Guardar y Publicar</span>
+                                                    </button>
+                                                    <a th:href="@{/dashboard/listings}" class="btn btn-secondary ms-2">
+                                                        <span class="far fa-times"></span> Cancelar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

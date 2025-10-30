@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head(${car.year + ' ' + car.make + ' ' + car.model + ' - Premium Auto Dealer'})}"></head>
+<body>
+    <nav th:replace="~{fragments/header :: navbar}"></nav>
+
+    <!-- Breadcrumb -->
+    <div class="container mt-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/cars}">Inventory</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${car.make + ' ' + car.model}">Car</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Car Detail -->
+    <div class="container my-5">
+        <div class="row">
+            <!-- Car Image -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm">
+                    <img th:src="${car.imageUrl}" class="card-img-top" th:alt="${car.make + ' ' + car.model}" style="height: 400px; object-fit: cover;">
+                </div>
+            </div>
+
+            <!-- Car Information -->
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <span class="badge bg-secondary me-2" th:text="${car.year}">2023</span>
+                    <span class="badge bg-info" th:text="${car.color}">Color</span>
+                </div>
+                
+                <h1 class="display-5 fw-bold mb-3" th:text="${car.year + ' ' + car.make + ' ' + car.model}">2023 Toyota Camry</h1>
+                
+                <h2 class="text-primary mb-4">
+                    $<span th:text="${#numbers.formatDecimal(car.price, 0, 'COMMA', 2, 'POINT')}">0.00</span>
+                </h2>
+
+                <!-- Key Specifications -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0"><i class="bi bi-info-circle"></i> Key Specifications</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-calendar3 text-primary me-2" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Year</small>
+                                        <strong th:text="${car.year}">2023</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-speedometer2 text-primary me-2" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Mileage</small>
+                                        <strong><span th:text="${#numbers.formatInteger(car.mileage, 0, 'COMMA')}">0</span> miles</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-palette text-primary me-2" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Color</small>
+                                        <strong th:text="${car.color}">Silver</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-car-front text-primary me-2" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Make</small>
+                                        <strong th:text="${car.make}">Toyota</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-grid gap-2 mb-4">
+                    <button class="btn btn-outline-danger btn-lg favorite-btn"
+                            th:data-car-id="${car.id}"
+                            th:classappend="${isFavorite} ? 'active' : ''">
+                        <i th:class="${isFavorite} ? 'fas fa-heart' : 'far fa-heart'"></i>
+                        <span th:text="${isFavorite} ? 'Eliminar de Favoritos' : 'Añadir a Favoritos'">Add to Favorites</span>
+                    </button>
+                    <a th:href="@{/cars}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to Inventory
+                    </a>
+                </div>
+
+                <!-- Features -->
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0"><i class="bi bi-check-circle"></i> Features</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                            <li><i class="bi bi-check-lg text-success"></i> Full Service History</li>
+                            <li><i class="bi bi-check-lg text-success"></i> One Owner</li>
+                            <li><i class="bi bi-check-lg text-success"></i> Clean Title</li>
+                            <li><i class="bi bi-check-lg text-success"></i> Recently Serviced</li>
+                            <li><i class="bi bi-check-lg text-success"></i> Warranty Available</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0"><i class="bi bi-file-text"></i> Description</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead" th:text="${car.description}">Car description goes here...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="bi bi-chat-dots"></i> Comentarios
+                            <span class="badge bg-secondary" th:text="${commentCount}">0</span>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Add Comment Form (only for authenticated users) -->
+                        <div th:if="${#authorization.expression('isAuthenticated()')}" class="mb-4">
+                            <h6>Añadir Comentario</h6>
+                            <form th:action="@{/comments/add}" method="post">
+                                <input type="hidden" name="carId" th:value="${car.id}">
+                                
+                                <div class="mb-3">
+                                    <label for="rating" class="form-label">Valoración</label>
+                                    <select class="form-select" id="rating" name="rating">
+                                        <option value="">Sin valoración</option>
+                                        <option value="5">⭐⭐⭐⭐⭐ Excelente</option>
+                                        <option value="4">⭐⭐⭐⭐ Muy bueno</option>
+                                        <option value="3">⭐⭐⭐ Bueno</option>
+                                        <option value="2">⭐⭐ Regular</option>
+                                        <option value="1">⭐ Malo</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="comment-content" class="form-label">Comentario *</label>
+                                    <textarea class="form-control" id="comment-content" name="content"
+                                              rows="3" placeholder="Escribe tu comentario aquí..." required></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-send"></i> Publicar Comentario
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div th:unless="${#authorization.expression('isAuthenticated()')}" class="alert alert-info">
+                            <i class="bi bi-info-circle"></i>
+                            Debes <a th:href="@{/login}">iniciar sesión</a> para dejar un comentario.
+                        </div>
+                        
+                        <hr th:if="${#authorization.expression('isAuthenticated()')}">
+                        
+                        <!-- Comments List -->
+                        <div th:if="${comments != null and !comments.isEmpty()}">
+                            <h6 class="mb-3">Comentarios de usuarios</h6>
+                            <div th:each="comment : ${comments}" class="mb-3 pb-3 border-bottom">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <strong th:text="${comment.user.name}">User Name</strong>
+                                        <span th:if="${comment.rating != null}" class="ms-2">
+                                            <span th:each="i : ${#numbers.sequence(1, comment.rating)}">⭐</span>
+                                        </span>
+                                        <br>
+                                        <small class="text-muted" th:text="${#temporals.format(comment.createdAt, 'dd/MM/yyyy HH:mm')}">Date</small>
+                                    </div>
+                                    <form th:if="${#authorization.expression('isAuthenticated()') and comment.user.email == #authentication.name}"
+                                          th:action="@{/comments/delete/{id}(id=${comment.id})}"
+                                          method="post"
+                                          style="display: inline;"
+                                          onsubmit="return confirm('¿Estás seguro de que quieres eliminar este comentario?');">
+                                        <input type="hidden" name="carId" th:value="${car.id}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <p class="mt-2 mb-0" th:text="${comment.content}">Comment content</p>
+                            </div>
+                        </div>
+                        
+                        <div th:if="${comments == null or comments.isEmpty()}" class="text-center text-muted py-4">
+                            <i class="bi bi-chat-dots" style="font-size: 3rem;"></i>
+                            <p class="mt-2">No hay comentarios aún. ¡Sé el primero en comentar!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Seller Form -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0"><i class="bi bi-envelope"></i> Contactar al Vendedor</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Success/Error Messages -->
+                        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                            <span th:text="${success}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <span th:text="${error}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        
+                        <form th:action="@{/messages/send}" method="post" th:object="${messageDTO}">
+                            <input type="hidden" th:field="*{receiverId}" th:value="${car.dealer.user.id}">
+                            <input type="hidden" th:field="*{carId}" th:value="${car.id}">
+                            
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Asunto *</label>
+                                <input type="text" class="form-control" id="subject" th:field="*{subject}"
+                                       th:value="'Consulta sobre ' + ${car.year} + ' ' + ${car.make} + ' ' + ${car.model}"
+                                       required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="content" class="form-label">Mensaje *</label>
+                                <textarea class="form-control" id="content" th:field="*{content}"
+                                          rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-send"></i> Enviar Mensaje
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card bg-primary text-white">
+                    <div class="card-body text-center py-5">
+                        <h3 class="mb-3">Interested in This Vehicle?</h3>
+                        <p class="lead mb-4">Contact us today to schedule a test drive or get more information.</p>
+                        <a th:href="@{/contact}" class="btn btn-light btn-lg">
+                            <i class="bi bi-telephone"></i> Get in Touch
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script>
+        // Handle favorite toggle
+        $(document).on('click', '.favorite-btn', function(e) {
+            e.preventDefault();
+            var $btn = $(this);
+            var carId = $btn.data('car-id');
+            var isActive = $btn.hasClass('active');
+            var url = isActive ? '/favorites/remove/' + carId : '/favorites/add/' + carId;
+            
+            $.ajax({
+                url: url,
+                type: 'POST',
+                success: function(response) {
+                    if (response.success) {
+                        $btn.toggleClass('active');
+                        var $icon = $btn.find('i');
+                        var $text = $btn.find('span');
+                        
+                        if ($btn.hasClass('active')) {
+                            $icon.removeClass('far').addClass('fas');
+                            $text.text('Eliminar de Favoritos');
+                        } else {
+                            $icon.removeClass('fas').addClass('far');
+                            $text.text('Añadir a Favoritos');
+                        }
+                    } else {
+                        alert(response.message || 'Error al actualizar favoritos');
+                    }
+                },
+                error: function() {
+                    alert('Debes iniciar sesión para añadir favoritos');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
