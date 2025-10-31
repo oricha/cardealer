@@ -1,5 +1,6 @@
 package com.cardealer.controller;
 
+import com.cardealer.model.ContactForm;
 import com.cardealer.model.enums.BodyType;
 import com.cardealer.service.CarService;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,13 @@ public class HomeController {
     @GetMapping("/about")
     public String about() {
         return "about";
+    }
+
+    @GetMapping("/contact")
+    public String contact(Model model) {
+        if (!model.containsAttribute("contactForm")) {
+            model.addAttribute("contactForm", new ContactForm());
+        }
+        return "contact";
     }
 }
