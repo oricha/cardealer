@@ -7,8 +7,8 @@
     <!-- Page Header -->
     <div class="bg-primary text-white py-5">
         <div class="container">
-            <h1 class="display-4 fw-bold">Our Inventory</h1>
-            <p class="lead">Browse our complete collection of quality vehicles</p>
+            <h1 class="display-4 fw-bold">Nuestro Inventario</h1>
+            <p class="lead">Explora nuestra colección completa de vehículos de calidad</p>
         </div>
     </div>
 
@@ -17,7 +17,7 @@
         <div class="row mb-4">
             <div class="col-md-12">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h4>Available Cars (<span th:text="${#lists.size(cars)}">0</span>)</h4>
+                    <h4>Coches disponibles (<span th:text="${#lists.size(cars)}">0</span>)</h4>
                 </div>
             </div>
         </div>
@@ -26,8 +26,8 @@
             <div class="col-12">
                 <div class="alert alert-info text-center">
                     <i class="bi bi-info-circle" style="font-size: 3rem;"></i>
-                    <h4 class="mt-3">No cars available at the moment</h4>
-                    <p>Please check back later for new arrivals.</p>
+                    <h4 class="mt-3">No hay coches disponibles en este momento</h4>
+                    <p>Por favor, vuelve más tarde para nuevas incorporaciones.</p>
                 </div>
             </div>
         </div>
@@ -50,8 +50,8 @@
                             <span class="badge bg-info" th:text="${car.color}">Color</span>
                         </div>
                         <h5 class="card-title" th:text="${car.make + ' ' + car.model}">Toyota Camry</h5>
-                        <p class="card-text text-muted flex-grow-1" th:text="${#strings.abbreviate(car.description, 120)}">Description</p>
-                        
+                        <p class="card-text text-muted flex-grow-1" th:text="${#strings.abbreviate(car.description, 120)}">Descripción</p>
+
                         <div class="mb-3">
                             <div class="d-flex justify-content-between text-muted small mb-2">
                                 <span><i class="bi bi-speedometer2"></i> <span th:text="${#numbers.formatInteger(car.mileage, 0, 'COMMA')}">0</span> miles</span>
@@ -64,7 +64,7 @@
                                 $<span th:text="${#numbers.formatDecimal(car.price, 0, 'COMMA', 2, 'POINT')}">0.00</span>
                             </h4>
                             <a th:href="@{/cars/{id}(id=${car.id})}" class="btn btn-primary">
-                                View Details <i class="bi bi-arrow-right"></i>
+                                Ver Detalles <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>
                     </div>
@@ -78,10 +78,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
-                    <h2 class="fw-bold mb-3">Didn't Find What You're Looking For?</h2>
-                    <p class="lead text-muted mb-4">Contact us and we'll help you find the perfect vehicle that matches your requirements.</p>
+                    <h2 class="fw-bold mb-3">¿No encontraste lo que buscas?</h2>
+                    <p class="lead text-muted mb-4">Contacta con nosotros y te ayudaremos a encontrar el vehículo perfecto que se ajuste a tus requisitos.</p>
                     <a th:href="@{/contact}" class="btn btn-primary btn-lg">
-                        <i class="bi bi-envelope"></i> Contact Us
+                        <i class="bi bi-envelope"></i> Contáctanos
                     </a>
                 </div>
             </div>

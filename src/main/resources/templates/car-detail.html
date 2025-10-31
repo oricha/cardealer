@@ -8,9 +8,9 @@
     <div class="container mt-4">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-                <li class="breadcrumb-item"><a th:href="@{/cars}">Inventory</a></li>
-                <li class="breadcrumb-item active" aria-current="page" th:text="${car.make + ' ' + car.model}">Car</li>
+                <li class="breadcrumb-item"><a th:href="@{/}">Inicio</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/cars}">Inventario</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${car.make + ' ' + car.model}">Auto</li>
             </ol>
         </nav>
     </div>
@@ -41,7 +41,7 @@
                 <!-- Key Specifications -->
                 <div class="card mb-4">
                     <div class="card-header bg-light">
-                        <h5 class="mb-0"><i class="bi bi-info-circle"></i> Key Specifications</h5>
+                        <h5 class="mb-0"><i class="bi bi-info-circle"></i> Especificaciones Clave</h5>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -49,7 +49,7 @@
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-calendar3 text-primary me-2" style="font-size: 1.5rem;"></i>
                                     <div>
-                                        <small class="text-muted d-block">Year</small>
+                                        <small class="text-muted d-block">Año</small>
                                         <strong th:text="${car.year}">2023</strong>
                                     </div>
                                 </div>
@@ -58,8 +58,8 @@
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-speedometer2 text-primary me-2" style="font-size: 1.5rem;"></i>
                                     <div>
-                                        <small class="text-muted d-block">Mileage</small>
-                                        <strong><span th:text="${#numbers.formatInteger(car.mileage, 0, 'COMMA')}">0</span> miles</strong>
+                                        <small class="text-muted d-block">Kilometraje</small>
+                                        <strong><span th:text="${#numbers.formatInteger(car.mileage, 0, 'COMMA')}">0</span> millas</strong>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-car-front text-primary me-2" style="font-size: 1.5rem;"></i>
                                     <div>
-                                        <small class="text-muted d-block">Make</small>
+                                        <small class="text-muted d-block">Marca</small>
                                         <strong th:text="${car.make}">Toyota</strong>
                                     </div>
                                 </div>
@@ -91,25 +91,25 @@
                             th:data-car-id="${car.id}"
                             th:classappend="${isFavorite} ? 'active' : ''">
                         <i th:class="${isFavorite} ? 'fas fa-heart' : 'far fa-heart'"></i>
-                        <span th:text="${isFavorite} ? 'Eliminar de Favoritos' : 'Añadir a Favoritos'">Add to Favorites</span>
+                        <span th:text="${isFavorite} ? 'Eliminar de Favoritos' : 'Añadir a Favoritos'">Añadir a Favoritos</span>
                     </button>
                     <a th:href="@{/cars}" class="btn btn-outline-secondary">
-                        <i class="bi bi-arrow-left"></i> Back to Inventory
+                        <i class="bi bi-arrow-left"></i> Volver al Inventario
                     </a>
                 </div>
 
                 <!-- Features -->
                 <div class="card">
                     <div class="card-header bg-light">
-                        <h5 class="mb-0"><i class="bi bi-check-circle"></i> Features</h5>
+                        <h5 class="mb-0"><i class="bi bi-check-circle"></i> Características</h5>
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled mb-0">
-                            <li><i class="bi bi-check-lg text-success"></i> Full Service History</li>
-                            <li><i class="bi bi-check-lg text-success"></i> One Owner</li>
-                            <li><i class="bi bi-check-lg text-success"></i> Clean Title</li>
-                            <li><i class="bi bi-check-lg text-success"></i> Recently Serviced</li>
-                            <li><i class="bi bi-check-lg text-success"></i> Warranty Available</li>
+                            <li><i class="bi bi-check-lg text-success"></i> Historial de Servicio Completo</li>
+                            <li><i class="bi bi-check-lg text-success"></i> Un Solo Dueño</li>
+                            <li><i class="bi bi-check-lg text-success"></i> Título Limpio</li>
+                            <li><i class="bi bi-check-lg text-success"></i> Recientemente Serviciado</li>
+                            <li><i class="bi bi-check-lg text-success"></i> Garantía Disponible</li>
                         </ul>
                     </div>
                 </div>
@@ -121,10 +121,10 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header bg-light">
-                        <h5 class="mb-0"><i class="bi bi-file-text"></i> Description</h5>
+                        <h5 class="mb-0"><i class="bi bi-file-text"></i> Descripción</h5>
                     </div>
                     <div class="card-body">
-                        <p class="lead" th:text="${car.description}">Car description goes here...</p>
+                        <p class="lead" th:text="${car.description}">Descripción del vehículo...</p>
                     </div>
                 </div>
             </div>
@@ -202,7 +202,7 @@
                                         </button>
                                     </form>
                                 </div>
-                                <p class="mt-2 mb-0" th:text="${comment.content}">Comment content</p>
+                                <p class="mt-2 mb-0" th:text="${comment.content}">Contenido del comentario</p>
                             </div>
                         </div>
                         
@@ -234,19 +234,19 @@
                         </div>
                         
                         <form th:action="@{/messages/send}" method="post" th:object="${messageDTO}">
-                            <input type="hidden" th:field="*{receiverId}" th:value="${car.dealer.user.id}">
-                            <input type="hidden" th:field="*{carId}" th:value="${car.id}">
-                            
+                            <input type="hidden" name="receiverId" th:value="${car.dealer.user.id}">
+                            <input type="hidden" name="carId" th:value="${car.id}">
+
                             <div class="mb-3">
                                 <label for="subject" class="form-label">Asunto *</label>
-                                <input type="text" class="form-control" id="subject" th:field="*{subject}"
+                                <input type="text" class="form-control" id="subject" name="subject"
                                        th:value="'Consulta sobre ' + ${car.year} + ' ' + ${car.make} + ' ' + ${car.model}"
                                        required>
                             </div>
                             
                             <div class="mb-3">
                                 <label for="content" class="form-label">Mensaje *</label>
-                                <textarea class="form-control" id="content" th:field="*{content}"
+                                <textarea class="form-control" id="content" name="content"
                                           rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
                             </div>
                             
@@ -264,10 +264,10 @@
             <div class="col-12">
                 <div class="card bg-primary text-white">
                     <div class="card-body text-center py-5">
-                        <h3 class="mb-3">Interested in This Vehicle?</h3>
-                        <p class="lead mb-4">Contact us today to schedule a test drive or get more information.</p>
+                        <h3 class="mb-3">¿Interesado en este vehículo?</h3>
+                        <p class="lead mb-4">Contacta con nosotros hoy para concertar una prueba de conducción o para obtener más información.</p>
                         <a th:href="@{/contact}" class="btn btn-light btn-lg">
-                            <i class="bi bi-telephone"></i> Get in Touch
+                            <i class="bi bi-telephone"></i> Contáctanos
                         </a>
                     </div>
                 </div>
