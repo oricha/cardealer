@@ -2,20 +2,15 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/.gradle" />
-      <excludeFolder url="file://$MODULE_DIR$/.idea/codeStyles" />
-      <excludeFolder url="file://$MODULE_DIR$/.kiro" />
-      <excludeFolder url="file://$MODULE_DIR$/.vscode" />
-      <excludeFolder url="file://$MODULE_DIR$/build" />
-    </content>
+    <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
+    <option name="TEMPLATE_CONFIGURATION" value="Chameleon" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/cardealer/.specify/templates" />
+        <option value="$MODULE_DIR$/bin/main/templates" />
       </list>
     </option>
   </component>
