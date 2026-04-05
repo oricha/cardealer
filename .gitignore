@@ -33,7 +33,7 @@ gradle-app.setting
 .gradletasknamecache
 
 # IntelliJ IDEA
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -75,9 +75,5 @@ Desktop.ini
 application-local.properties
 application-dev.properties
 
-# LLM
+# Kiro (local specs / agent)
 .kiro/
-
-.idea/
-.idea/modules.xml
-.idea/codeStyles/codeStyleConfig.xml
