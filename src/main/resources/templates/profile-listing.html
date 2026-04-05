@@ -120,6 +120,17 @@
                                                                 <i class="far fa-trash-can"></i>
                                                             </button>
                                                         </form>
+                                                        <form th:if="${!car.active}"
+                                                              th:action="@{/dashboard/listings/reactivate/{id}(id=${car.id})}"
+                                                              method="post"
+                                                              style="display: inline;">
+                                                            <button type="submit"
+                                                                    class="btn btn-outline-success btn-sm rounded-2"
+                                                                    data-bs-toggle="tooltip"
+                                                                    title="Reactivar">
+                                                                <i class="far fa-rotate-right"></i>
+                                                            </button>
+                                                        </form>
                                                     </td>
                                                 </tr>
                                             </tbody>

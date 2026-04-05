@@ -48,7 +48,7 @@ public class CarController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size,
             Model model) {
-        Page<Car> carsPage = buildCarsListing(filters, page, size, model);
+        buildCarsListing(filters, page, size, model);
         return "inventory-grid";
     }
 

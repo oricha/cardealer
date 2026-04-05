@@ -14,11 +14,9 @@ import com.cardealer.service.DealerService;
 import com.cardealer.service.FavoriteService;
 import com.cardealer.service.MessageService;
 import com.cardealer.service.UserService;
-import com.cardealer.util.FileUploadUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.data.domain.Page;
@@ -149,6 +147,7 @@ public class DashboardController {
             model.addAttribute("messages", messagesPage.getContent());
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", messagesPage.getTotalPages());
+            model.addAttribute("unreadCount", messageService.getUnreadCount(1L));
             return "profile-message";
         }
         

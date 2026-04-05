@@ -17,11 +17,17 @@ public class GlobalModelAttributesController {
 
     @ModelAttribute("unreadMessageCount")
     public long unreadMessageCount(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || "anonymousUser".equals(authentication.getName())) {
             return 0L;
         }
 
-        User user = userService.getUserByEmail(authentication.getName());
-        return messageService.getUnreadCount(user.getId());
+        try {
+            User user = userService.getUserByEmail(authentication.getName());
+            return messageService.getUnreadCount(user.getId());
+        } catch (Exception ignored) {
+            return 0L;
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.cardealer.controller;
 
 import com.cardealer.dto.ContactFormDTO;
-import com.cardealer.model.Car;
 import com.cardealer.model.enums.BodyType;
 import com.cardealer.service.CarService;
 import lombok.RequiredArgsConstructor;
