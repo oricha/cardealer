@@ -31,6 +31,11 @@ public class ContactForm {
     @Column(nullable = false)
     private String email;
 
+    @NotBlank(message = "Subject is required")
+    @Size(min = 3, max = 150, message = "Subject must be between 3 and 150 characters")
+    @Column(nullable = false)
+    private String subject;
+
     @Size(max = 20, message = "Phone number must not exceed 20 characters")
     private String phone;
 

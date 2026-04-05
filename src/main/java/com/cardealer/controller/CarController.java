@@ -48,35 +48,18 @@ public class CarController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size,
             Model model) {
-        
-        // Create pageable
-        Pageable pageable = PageRequest.of(page, size);
-        
-        // Get filtered cars
-        Page<Car> carsPage = carService.findCarsWithFilters(filters, pageable);
-        
-        // Get all unique brands from database for filter dropdown
-        List<String> availableBrands = carService.getAllCars().stream()
-            .map(Car::getMake)
-            .distinct()
-            .sorted()
-            .collect(Collectors.toList());
-        
-        // Add data to model
-        model.addAttribute("cars", carsPage);
-        model.addAttribute("filters", filters);
-        model.addAttribute("availableBrands", availableBrands);
-        model.addAttribute("fuelTypes", Arrays.asList(FuelType.values()));
-        model.addAttribute("transmissionTypes", Arrays.asList(TransmissionType.values()));
-        model.addAttribute("bodyTypes", Arrays.asList(BodyType.values()));
-        model.addAttribute("conditions", Arrays.asList(CarCondition.values()));
-        
-        // Pagination info
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", carsPage.getTotalPages());
-        model.addAttribute("totalItems", carsPage.getTotalElements());
-        
+        Page<Car> carsPage = buildCarsListing(filters, page, size, model);
         return "inventory-grid";
+    }
+
+    @GetMapping("/list")
+    public String listCarsAsList(
+            @ModelAttribute CarFilterDTO filters,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "12") int size,
+            Model model) {
+        buildCarsListing(filters, page, size, model);
+        return "inventory-list";
     }
 
     /**
@@ -141,5 +124,22 @@ public class CarController {
         model.addAttribute("cars", carsToCompare);
         
         return "compare";
+    }
+
+    private Page<Car> buildCarsListing(CarFilterDTO filters, int page, int size, Model model) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Car> carsPage = carService.findCarsWithFilters(filters, pageable);
+
+        model.addAttribute("cars", carsPage);
+        model.addAttribute("filters", filters);
+        model.addAttribute("availableBrands", carService.getAvailableBrands());
+        model.addAttribute("fuelTypes", Arrays.asList(FuelType.values()));
+        model.addAttribute("transmissionTypes", Arrays.asList(TransmissionType.values()));
+        model.addAttribute("bodyTypes", Arrays.asList(BodyType.values()));
+        model.addAttribute("conditions", Arrays.asList(CarCondition.values()));
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", carsPage.getTotalPages());
+        model.addAttribute("totalItems", carsPage.getTotalElements());
+        return carsPage;
     }
 }

@@ -1,11 +1,12 @@
 package com.cardealer.controller;
 
-import com.cardealer.model.ContactForm;
+import com.cardealer.dto.ContactFormDTO;
 import com.cardealer.service.ContactService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,18 +21,20 @@ public class ContactController {
 
     @PostMapping
     public String submitContactForm(
-            @Valid @ModelAttribute("contactForm") ContactForm contactForm,
+            @Valid @ModelAttribute("contactForm") ContactFormDTO contactForm,
             BindingResult bindingResult,
+            Model model,
             RedirectAttributes redirectAttributes) {
         
         if (bindingResult.hasErrors()) {
+            model.addAttribute("contactForm", contactForm);
             return "contact";
         }
 
         contactService.saveContactForm(contactForm);
         
         redirectAttributes.addFlashAttribute("successMessage", 
-            "Thank you for contacting us! We will get back to you soon.");
+            "Hemos recibido tu mensaje. Te responderemos lo antes posible.");
         
         return "redirect:/contact";
     }
