@@ -247,16 +247,7 @@
     <main class="main">
 
         <!-- breadcrumb -->
-        <div class="site-breadcrumb" style="background: url(/img/breadcrumb/01.jpg)">
-            <div class="container">
-                <h2 class="breadcrumb-title" th:text="${car.make + ' ' + car.model}">Inventory Single</h2>
-                <ul class="breadcrumb-menu">
-                    <li><a th:href="@{/}">Home</a></li>
-                    <li><a th:href="@{/cars}">Cars</a></li>
-                    <li class="active" th:text="${car.make + ' ' + car.model}">Car Detail</li>
-                </ul>
-            </div>
-        </div>
+        <div th:replace="~{fragments/header :: breadcrumb(${car.make + ' ' + car.model}, ${breadcrumbItems})}"></div>
         <!-- breadcrumb end -->
 
 

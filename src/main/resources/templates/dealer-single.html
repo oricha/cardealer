@@ -10,16 +10,7 @@
     </div>
 
     <main class="main">
-        <div class="site-breadcrumb" style="background: url(/img/breadcrumb/01.jpg)">
-            <div class="container">
-                <h2 class="breadcrumb-title" th:text="${dealer.name}">Dealer Name</h2>
-                <ul class="breadcrumb-menu">
-                    <li><a th:href="@{/}">Inicio</a></li>
-                    <li><a th:href="@{/dealers}">Concesionarios</a></li>
-                    <li class="active" th:text="${dealer.name}">Dealer</li>
-                </ul>
-            </div>
-        </div>
+        <div th:replace="~{fragments/header :: breadcrumb(${dealer.name}, ${breadcrumbItems})}"></div>
 
         <div class="dealer-single bg py-120">
             <div class="container">

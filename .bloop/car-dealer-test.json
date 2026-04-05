@@ -327,6 +327,22 @@
                     ]
                 },
                 {
+                    "organization": "org.springframework.boot",
+                    "name": "spring-boot-starter-test",
+                    "version": "3.2.0",
+                    "artifacts": [
+                        {
+                            "name": "spring-boot-starter-test",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-test/3.2.0/afe5dc428297302f6aefd118aedced224cf2b672/spring-boot-starter-test-3.2.0.jar"
+                        },
+                        {
+                            "name": "spring-boot-starter-test",
+                            "classifier": "sources",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-test/3.2.0/494e8d8e2813217d12acafcc21c6bfee047de0b5/spring-boot-starter-test-3.2.0-sources.jar"
+                        }
+                    ]
+                },
+                {
                     "organization": "jakarta.annotation",
                     "name": "jakarta.annotation-api",
                     "version": "2.1.1",
@@ -343,22 +359,6 @@
                     ]
                 },
                 {
-                    "organization": "net.minidev",
-                    "name": "accessors-smart",
-                    "version": "2.5.0",
-                    "artifacts": [
-                        {
-                            "name": "accessors-smart",
-                            "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/net.minidev/accessors-smart/2.5.0/596cf1b2ac57a905102db8fb648c4080529f347f/accessors-smart-2.5.0-sources.jar"
-                        },
-                        {
-                            "name": "accessors-smart",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/net.minidev/accessors-smart/2.5.0/aca011492dfe9c26f4e0659028a4fe0970829dd8/accessors-smart-2.5.0.jar"
-                        }
-                    ]
-                },
-                {
                     "organization": "org.glassfish.jaxb",
                     "name": "txw2",
                     "version": "4.0.4",
@@ -371,22 +371,6 @@
                             "name": "txw2",
                             "classifier": "sources",
                             "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/txw2/4.0.4/1171c6ba6a0f040618222c01abe951a5f70f7b2/txw2-4.0.4-sources.jar"
-                        }
-                    ]
-                },
-                {
-                    "organization": "org.springframework.boot",
-                    "name": "spring-boot-starter-test",
-                    "version": "3.2.0",
-                    "artifacts": [
-                        {
-                            "name": "spring-boot-starter-test",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-test/3.2.0/afe5dc428297302f6aefd118aedced224cf2b672/spring-boot-starter-test-3.2.0.jar"
-                        },
-                        {
-                            "name": "spring-boot-starter-test",
-                            "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-test/3.2.0/494e8d8e2813217d12acafcc21c6bfee047de0b5/spring-boot-starter-test-3.2.0-sources.jar"
                         }
                     ]
                 },
@@ -419,6 +403,22 @@
                         {
                             "name": "asm",
                             "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.3/8e6300ef51c1d801a7ed62d07cd221aca3a90640/asm-9.3.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "net.minidev",
+                    "name": "accessors-smart",
+                    "version": "2.5.0",
+                    "artifacts": [
+                        {
+                            "name": "accessors-smart",
+                            "classifier": "sources",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/net.minidev/accessors-smart/2.5.0/596cf1b2ac57a905102db8fb648c4080529f347f/accessors-smart-2.5.0-sources.jar"
+                        },
+                        {
+                            "name": "accessors-smart",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/net.minidev/accessors-smart/2.5.0/aca011492dfe9c26f4e0659028a4fe0970829dd8/accessors-smart-2.5.0.jar"
                         }
                     ]
                 },
@@ -487,22 +487,6 @@
                     ]
                 },
                 {
-                    "organization": "org.junit.jupiter",
-                    "name": "junit-jupiter",
-                    "version": "5.10.1",
-                    "artifacts": [
-                        {
-                            "name": "junit-jupiter",
-                            "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter/5.10.1/4e79ee610aff59d79b5f229252ded392b7d48fd1/junit-jupiter-5.10.1-sources.jar"
-                        },
-                        {
-                            "name": "junit-jupiter",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter/5.10.1/6e5c7dd668d6349cb99e52ab8321e73479a309bc/junit-jupiter-5.10.1.jar"
-                        }
-                    ]
-                },
-                {
                     "organization": "org.checkerframework",
                     "name": "checker-qual",
                     "version": "3.42.0",
@@ -519,18 +503,18 @@
                     ]
                 },
                 {
-                    "organization": "org.flywaydb",
-                    "name": "flyway-database-postgresql",
-                    "version": "10.10.0",
+                    "organization": "org.junit.jupiter",
+                    "name": "junit-jupiter",
+                    "version": "5.10.1",
                     "artifacts": [
                         {
-                            "name": "flyway-database-postgresql",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.flywaydb/flyway-database-postgresql/10.10.0/18de19775a0ed33119d1a0c60278e35ecd168543/flyway-database-postgresql-10.10.0.jar"
+                            "name": "junit-jupiter",
+                            "classifier": "sources",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter/5.10.1/4e79ee610aff59d79b5f229252ded392b7d48fd1/junit-jupiter-5.10.1-sources.jar"
                         },
                         {
-                            "name": "flyway-database-postgresql",
-                            "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.flywaydb/flyway-database-postgresql/10.10.0/8403ae8b86617ca6b9e73428fc7a267492d8a98b/flyway-database-postgresql-10.10.0-sources.jar"
+                            "name": "junit-jupiter",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter/5.10.1/6e5c7dd668d6349cb99e52ab8321e73479a309bc/junit-jupiter-5.10.1.jar"
                         }
                     ]
                 },
@@ -547,6 +531,22 @@
                             "name": "spring-orm",
                             "classifier": "sources",
                             "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework/spring-orm/6.1.1/9f4d9e8320d5e9fe37df7004c247b6982b7e1842/spring-orm-6.1.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.flywaydb",
+                    "name": "flyway-database-postgresql",
+                    "version": "10.10.0",
+                    "artifacts": [
+                        {
+                            "name": "flyway-database-postgresql",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.flywaydb/flyway-database-postgresql/10.10.0/18de19775a0ed33119d1a0c60278e35ecd168543/flyway-database-postgresql-10.10.0.jar"
+                        },
+                        {
+                            "name": "flyway-database-postgresql",
+                            "classifier": "sources",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.flywaydb/flyway-database-postgresql/10.10.0/8403ae8b86617ca6b9e73428fc7a267492d8a98b/flyway-database-postgresql-10.10.0-sources.jar"
                         }
                     ]
                 },
@@ -615,22 +615,6 @@
                     ]
                 },
                 {
-                    "organization": "com.vaadin.external.google",
-                    "name": "android-json",
-                    "version": "0.0.20131108.vaadin1",
-                    "artifacts": [
-                        {
-                            "name": "android-json",
-                            "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/bf42d7e47a3228513b626dd7d37ac6f072aeca4f/android-json-0.0.20131108.vaadin1-sources.jar"
-                        },
-                        {
-                            "name": "android-json",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/fa26d351fe62a6a17f5cda1287c1c6110dec413f/android-json-0.0.20131108.vaadin1.jar"
-                        }
-                    ]
-                },
-                {
                     "organization": "org.thymeleaf",
                     "name": "thymeleaf",
                     "version": "3.1.2.RELEASE",
@@ -643,22 +627,6 @@
                             "name": "thymeleaf",
                             "classifier": "sources",
                             "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.thymeleaf/thymeleaf/3.1.2.RELEASE/36eb9138624e00e20b5862a37f87f2d64f5845ea/thymeleaf-3.1.2.RELEASE-sources.jar"
-                        }
-                    ]
-                },
-                {
-                    "organization": "com.fasterxml.jackson.module",
-                    "name": "jackson-module-parameter-names",
-                    "version": "2.15.3",
-                    "artifacts": [
-                        {
-                            "name": "jackson-module-parameter-names",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-parameter-names/2.15.3/8d251b90c5358677e7d8161e0c2488e6f84f49da/jackson-module-parameter-names-2.15.3.jar"
-                        },
-                        {
-                            "name": "jackson-module-parameter-names",
-                            "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-parameter-names/2.15.3/a69102db97639344028b198720103e3d1c72d5fe/jackson-module-parameter-names-2.15.3-sources.jar"
                         }
                     ]
                 },
@@ -679,18 +647,34 @@
                     ]
                 },
                 {
-                    "organization": "org.hibernate.validator",
-                    "name": "hibernate-validator",
-                    "version": "8.0.1.Final",
+                    "organization": "com.fasterxml.jackson.module",
+                    "name": "jackson-module-parameter-names",
+                    "version": "2.15.3",
                     "artifacts": [
                         {
-                            "name": "hibernate-validator",
-                            "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.hibernate.validator/hibernate-validator/8.0.1.Final/5b354d5afc27ce1282011e711ad28870006f1fe9/hibernate-validator-8.0.1.Final-sources.jar"
+                            "name": "jackson-module-parameter-names",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-parameter-names/2.15.3/8d251b90c5358677e7d8161e0c2488e6f84f49da/jackson-module-parameter-names-2.15.3.jar"
                         },
                         {
-                            "name": "hibernate-validator",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.hibernate.validator/hibernate-validator/8.0.1.Final/e49e116b3d3928060599b176b3538bb848718e95/hibernate-validator-8.0.1.Final.jar"
+                            "name": "jackson-module-parameter-names",
+                            "classifier": "sources",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-parameter-names/2.15.3/a69102db97639344028b198720103e3d1c72d5fe/jackson-module-parameter-names-2.15.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.vaadin.external.google",
+                    "name": "android-json",
+                    "version": "0.0.20131108.vaadin1",
+                    "artifacts": [
+                        {
+                            "name": "android-json",
+                            "classifier": "sources",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/bf42d7e47a3228513b626dd7d37ac6f072aeca4f/android-json-0.0.20131108.vaadin1-sources.jar"
+                        },
+                        {
+                            "name": "android-json",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/fa26d351fe62a6a17f5cda1287c1c6110dec413f/android-json-0.0.20131108.vaadin1.jar"
                         }
                     ]
                 },
@@ -707,6 +691,22 @@
                             "name": "slf4j-api",
                             "classifier": "sources",
                             "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/2.0.9/97e46b94d70f47892145e09d685461245584d596/slf4j-api-2.0.9-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.hibernate.validator",
+                    "name": "hibernate-validator",
+                    "version": "8.0.1.Final",
+                    "artifacts": [
+                        {
+                            "name": "hibernate-validator",
+                            "classifier": "sources",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.hibernate.validator/hibernate-validator/8.0.1.Final/5b354d5afc27ce1282011e711ad28870006f1fe9/hibernate-validator-8.0.1.Final-sources.jar"
+                        },
+                        {
+                            "name": "hibernate-validator",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.hibernate.validator/hibernate-validator/8.0.1.Final/e49e116b3d3928060599b176b3538bb848718e95/hibernate-validator-8.0.1.Final.jar"
                         }
                     ]
                 },
@@ -1239,22 +1239,6 @@
                     ]
                 },
                 {
-                    "organization": "org.aspectj",
-                    "name": "aspectjweaver",
-                    "version": "1.9.20.1",
-                    "artifacts": [
-                        {
-                            "name": "aspectjweaver",
-                            "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.9.20.1/92c96d3f7be6a80a3f1fc540b2ebee4c4af97bbd/aspectjweaver-1.9.20.1-sources.jar"
-                        },
-                        {
-                            "name": "aspectjweaver",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.9.20.1/33b0e41476658229933eec7134678cf336e66dd4/aspectjweaver-1.9.20.1.jar"
-                        }
-                    ]
-                },
-                {
                     "organization": "io.micrometer",
                     "name": "micrometer-commons",
                     "version": "1.12.0",
@@ -1267,6 +1251,22 @@
                             "name": "micrometer-commons",
                             "classifier": "sources",
                             "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/io.micrometer/micrometer-commons/1.12.0/3b7271c7ba1b7964ed63d751b62676f93103b5ec/micrometer-commons-1.12.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.aspectj",
+                    "name": "aspectjweaver",
+                    "version": "1.9.20.1",
+                    "artifacts": [
+                        {
+                            "name": "aspectjweaver",
+                            "classifier": "sources",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.9.20.1/92c96d3f7be6a80a3f1fc540b2ebee4c4af97bbd/aspectjweaver-1.9.20.1-sources.jar"
+                        },
+                        {
+                            "name": "aspectjweaver",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.9.20.1/33b0e41476658229933eec7134678cf336e66dd4/aspectjweaver-1.9.20.1.jar"
                         }
                     ]
                 },
@@ -1495,6 +1495,22 @@
                     ]
                 },
                 {
+                    "organization": "org.springframework",
+                    "name": "spring-beans",
+                    "version": "6.1.1",
+                    "artifacts": [
+                        {
+                            "name": "spring-beans",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/6.1.1/6af88af13193acf2197bc0a42f0ec4e5c481bfe9/spring-beans-6.1.1.jar"
+                        },
+                        {
+                            "name": "spring-beans",
+                            "classifier": "sources",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/6.1.1/7a48fcd36752a8702b29e15a222bce4372b72d06/spring-beans-6.1.1-sources.jar"
+                        }
+                    ]
+                },
+                {
                     "organization": "org.springframework.boot",
                     "name": "spring-boot-starter-web",
                     "version": "3.2.0",
@@ -1511,18 +1527,18 @@
                     ]
                 },
                 {
-                    "organization": "org.springframework",
-                    "name": "spring-beans",
-                    "version": "6.1.1",
+                    "organization": "org.mockito",
+                    "name": "mockito-junit-jupiter",
+                    "version": "5.7.0",
                     "artifacts": [
                         {
-                            "name": "spring-beans",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/6.1.1/6af88af13193acf2197bc0a42f0ec4e5c481bfe9/spring-beans-6.1.1.jar"
+                            "name": "mockito-junit-jupiter",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-junit-jupiter/5.7.0/ac2d6a3431747a7986b8f4abef465f72bf3a21ae/mockito-junit-jupiter-5.7.0.jar"
                         },
                         {
-                            "name": "spring-beans",
+                            "name": "mockito-junit-jupiter",
                             "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/6.1.1/7a48fcd36752a8702b29e15a222bce4372b72d06/spring-beans-6.1.1-sources.jar"
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-junit-jupiter/5.7.0/5d3de2c05dc223dbb76d5d57125e529fe3623fec/mockito-junit-jupiter-5.7.0-sources.jar"
                         }
                     ]
                 },
@@ -1555,22 +1571,6 @@
                         {
                             "name": "jakarta.activation-api",
                             "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/jakarta.activation/jakarta.activation-api/2.1.2/640c0d5aff45dbff1e1a1bc09673ff3a02b1ba12/jakarta.activation-api-2.1.2.jar"
-                        }
-                    ]
-                },
-                {
-                    "organization": "org.mockito",
-                    "name": "mockito-junit-jupiter",
-                    "version": "5.7.0",
-                    "artifacts": [
-                        {
-                            "name": "mockito-junit-jupiter",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-junit-jupiter/5.7.0/ac2d6a3431747a7986b8f4abef465f72bf3a21ae/mockito-junit-jupiter-5.7.0.jar"
-                        },
-                        {
-                            "name": "mockito-junit-jupiter",
-                            "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-junit-jupiter/5.7.0/5d3de2c05dc223dbb76d5d57125e529fe3623fec/mockito-junit-jupiter-5.7.0-sources.jar"
                         }
                     ]
                 },
@@ -1623,22 +1623,6 @@
                     ]
                 },
                 {
-                    "organization": "org.springframework.security",
-                    "name": "spring-security-web",
-                    "version": "6.2.0",
-                    "artifacts": [
-                        {
-                            "name": "spring-security-web",
-                            "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-web/6.2.0/9a8dc7c9ffc1391a5d2f1f3c15cc58fe8a34b41b/spring-security-web-6.2.0-sources.jar"
-                        },
-                        {
-                            "name": "spring-security-web",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-web/6.2.0/279f836f90d0b7d394abe115e5504b2ff4b66643/spring-security-web-6.2.0.jar"
-                        }
-                    ]
-                },
-                {
                     "organization": "org.springframework",
                     "name": "spring-web",
                     "version": "6.1.1",
@@ -1651,6 +1635,22 @@
                             "name": "spring-web",
                             "classifier": "sources",
                             "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/6.1.1/9ca23e110965b376c724ab6f49b7aa0a24c6bfc6/spring-web-6.1.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.springframework.security",
+                    "name": "spring-security-web",
+                    "version": "6.2.0",
+                    "artifacts": [
+                        {
+                            "name": "spring-security-web",
+                            "classifier": "sources",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-web/6.2.0/9a8dc7c9ffc1391a5d2f1f3c15cc58fe8a34b41b/spring-security-web-6.2.0-sources.jar"
+                        },
+                        {
+                            "name": "spring-security-web",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-web/6.2.0/279f836f90d0b7d394abe115e5504b2ff4b66643/spring-security-web-6.2.0.jar"
                         }
                     ]
                 },
@@ -1703,22 +1703,6 @@
                     ]
                 },
                 {
-                    "organization": "org.springframework.security",
-                    "name": "spring-security-crypto",
-                    "version": "6.2.0",
-                    "artifacts": [
-                        {
-                            "name": "spring-security-crypto",
-                            "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-crypto/6.2.0/da46ba6789dd12ef5205e9f9aebde516787a1a5/spring-security-crypto-6.2.0-sources.jar"
-                        },
-                        {
-                            "name": "spring-security-crypto",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-crypto/6.2.0/7cee6007ede44a19a3773912dbdac86ff53d0549/spring-security-crypto-6.2.0.jar"
-                        }
-                    ]
-                },
-                {
                     "organization": "org.springframework",
                     "name": "spring-expression",
                     "version": "6.1.1",
@@ -1731,6 +1715,22 @@
                             "name": "spring-expression",
                             "classifier": "sources",
                             "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/6.1.1/9b8a778ee7a384f017910bb10a7585a5d769a43d/spring-expression-6.1.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.springframework.security",
+                    "name": "spring-security-crypto",
+                    "version": "6.2.0",
+                    "artifacts": [
+                        {
+                            "name": "spring-security-crypto",
+                            "classifier": "sources",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-crypto/6.2.0/da46ba6789dd12ef5205e9f9aebde516787a1a5/spring-security-crypto-6.2.0-sources.jar"
+                        },
+                        {
+                            "name": "spring-security-crypto",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-crypto/6.2.0/7cee6007ede44a19a3773912dbdac86ff53d0549/spring-security-crypto-6.2.0.jar"
                         }
                     ]
                 },
@@ -1783,22 +1783,6 @@
                     ]
                 },
                 {
-                    "organization": "org.hibernate.orm",
-                    "name": "hibernate-core",
-                    "version": "6.3.1.Final",
-                    "artifacts": [
-                        {
-                            "name": "hibernate-core",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.hibernate.orm/hibernate-core/6.3.1.Final/1101d7e09e4853a110fd27a6f35c906f5709ac4f/hibernate-core-6.3.1.Final.jar"
-                        },
-                        {
-                            "name": "hibernate-core",
-                            "classifier": "sources",
-                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.hibernate.orm/hibernate-core/6.3.1.Final/7f46ccb21d7deab8e85fbc627c2a2c88be6e22f3/hibernate-core-6.3.1.Final-sources.jar"
-                        }
-                    ]
-                },
-                {
                     "organization": "io.smallrye",
                     "name": "jandex",
                     "version": "3.1.2",
@@ -1827,6 +1811,22 @@
                             "name": "spring-boot-starter-jdbc",
                             "classifier": "sources",
                             "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-jdbc/3.2.0/d9e6d805fed4aff1d6029374b6fdfc206c69b744/spring-boot-starter-jdbc-3.2.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.hibernate.orm",
+                    "name": "hibernate-core",
+                    "version": "6.3.1.Final",
+                    "artifacts": [
+                        {
+                            "name": "hibernate-core",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.hibernate.orm/hibernate-core/6.3.1.Final/1101d7e09e4853a110fd27a6f35c906f5709ac4f/hibernate-core-6.3.1.Final.jar"
+                        },
+                        {
+                            "name": "hibernate-core",
+                            "classifier": "sources",
+                            "path": "/Users/zion/.gradle/caches/modules-2/files-2.1/org.hibernate.orm/hibernate-core/6.3.1.Final/7f46ccb21d7deab8e85fbc627c2a2c88be6e22f3/hibernate-core-6.3.1.Final-sources.jar"
                         }
                     ]
                 },

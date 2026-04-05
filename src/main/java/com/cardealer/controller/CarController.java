@@ -1,6 +1,7 @@
 package com.cardealer.controller;
 
 import com.cardealer.dto.CarFilterDTO;
+import com.cardealer.dto.BreadcrumbItem;
 import com.cardealer.dto.MessageDTO;
 import com.cardealer.model.Car;
 import com.cardealer.model.Comment;
@@ -49,6 +50,9 @@ public class CarController {
             @RequestParam(defaultValue = "12") int size,
             Model model) {
         buildCarsListing(filters, page, size, model);
+        model.addAttribute("pageDescription", "Explora el inventario completo de coches disponibles en Portal de Coches.");
+        model.addAttribute("pageKeywords", "inventario coches, coches segunda mano, coches ocasión");
+        model.addAttribute("ogTitle", "Inventario de Coches");
         return "inventory-grid";
     }
 
@@ -59,6 +63,9 @@ public class CarController {
             @RequestParam(defaultValue = "12") int size,
             Model model) {
         buildCarsListing(filters, page, size, model);
+        model.addAttribute("pageDescription", "Consulta el inventario en formato lista para comparar rápidamente vehículos disponibles.");
+        model.addAttribute("pageKeywords", "lista coches, catálogo coches, vehículos disponibles");
+        model.addAttribute("ogTitle", "Inventario en Lista");
         return "inventory-list";
     }
 
@@ -70,6 +77,20 @@ public class CarController {
         // Get car and increment views
         Car car = carService.getCarById(id);
         model.addAttribute("car", car);
+        model.addAttribute("breadcrumbItems", List.of(
+            new BreadcrumbItem("Inicio", "/", false),
+            new BreadcrumbItem("Inventario", "/cars", false),
+            new BreadcrumbItem(car.getMake() + " " + car.getModel(), null, true)
+        ));
+        model.addAttribute("pageDescription", car.getDescription() != null && !car.getDescription().isBlank()
+            ? car.getDescription()
+            : "Descubre todos los detalles de " + car.getMake() + " " + car.getModel() + ".");
+        model.addAttribute("pageKeywords", String.join(", ",
+            List.of("detalle coche", car.getMake(), car.getModel(), "portal coches")));
+        model.addAttribute("ogTitle", car.getMake() + " " + car.getModel());
+        model.addAttribute("ogImage", (car.getImages() != null && !car.getImages().isEmpty())
+            ? "/uploads/" + car.getImages().get(0)
+            : "/img/car/01.jpg");
         
         // Get related cars (same brand)
         List<Car> relatedCars = carService.getRelatedCars(id);
@@ -122,6 +143,9 @@ public class CarController {
             .collect(Collectors.toList());
         
         model.addAttribute("cars", carsToCompare);
+        model.addAttribute("pageDescription", "Compara varios coches en paralelo para tomar una mejor decisión de compra.");
+        model.addAttribute("pageKeywords", "comparar coches, comparativa vehículos");
+        model.addAttribute("ogTitle", "Comparador de Coches");
         
         return "compare";
     }
