@@ -1,5 +1,6 @@
 package com.cardealer.controller;
 
+import com.cardealer.dto.BreadcrumbItem;
 import com.cardealer.model.Car;
 import com.cardealer.model.Dealer;
 import com.cardealer.service.CarService;
@@ -35,6 +36,9 @@ public class DealerController {
             List<Dealer> dealers = dealerService.getAllActiveDealers();
             
             model.addAttribute("dealers", dealers);
+            model.addAttribute("pageDescription", "Conoce los concesionarios registrados y explora sus vehículos activos.");
+            model.addAttribute("pageKeywords", "concesionarios, vendedores coches, dealers");
+            model.addAttribute("ogTitle", "Concesionarios");
             
             log.info("Loaded {} dealers", dealers.size());
             return "dealer";
@@ -63,6 +67,20 @@ public class DealerController {
             model.addAttribute("dealer", dealer);
             model.addAttribute("dealerCars", dealerCars);
             model.addAttribute("totalListings", dealerCars.size());
+            model.addAttribute("breadcrumbItems", List.of(
+                new BreadcrumbItem("Inicio", "/", false),
+                new BreadcrumbItem("Concesionarios", "/dealers", false),
+                new BreadcrumbItem(dealer.getName(), null, true)
+            ));
+            model.addAttribute("pageDescription", dealer.getDescription() != null && !dealer.getDescription().isBlank()
+                ? dealer.getDescription()
+                : "Consulta el perfil y los vehículos activos de " + dealer.getName() + ".");
+            model.addAttribute("pageKeywords", String.join(", ",
+                List.of("concesionario", dealer.getName(), "coches en venta")));
+            model.addAttribute("ogTitle", dealer.getName());
+            model.addAttribute("ogImage", dealer.getLogoUrl() != null && !dealer.getLogoUrl().isBlank()
+                ? "/uploads/" + dealer.getLogoUrl()
+                : "/img/store/logo.jpg");
             
             log.info("Loaded dealer: {} with {} cars", dealer.getName(), dealerCars.size());
             return "dealer-single";

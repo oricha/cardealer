@@ -7,8 +7,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portal de venta de coches de ocasión y accidentados">
-    <meta name="keywords" content="coches, venta, ocasión, accidentados, concesionario">
+    <meta name="description" th:content="${pageDescription} ?: 'Portal de venta de coches de ocasión y accidentados'">
+    <meta name="keywords" th:content="${pageKeywords} ?: 'coches, venta, ocasión, accidentados, concesionario'">
+    <meta property="og:type" content="website">
+    <meta property="og:title" th:content="${ogTitle} ?: (${title} ?: 'Portal de Coches')">
+    <meta property="og:description" th:content="${pageDescription} ?: 'Portal de venta de coches de ocasión y accidentados'">
+    <meta property="og:image" th:content="${ogImage} ?: '/img/logo/logo-full-light.png'">
 
     <!-- title -->
     <title th:text="${title} ?: 'Portal de Coches'">Portal de Coches</title>
@@ -195,6 +199,18 @@
             </nav>
         </div>
     </header>
+
+    <div th:fragment="breadcrumb(title, items)" class="site-breadcrumb" style="background: url(/img/breadcrumb/01.jpg)">
+        <div class="container">
+            <h2 class="breadcrumb-title" th:text="${title}">Page Title</h2>
+            <ul class="breadcrumb-menu">
+                <li th:each="item : ${items}">
+                    <a th:if="${!item.current}" th:href="${item.url}" th:text="${item.label}">Breadcrumb</a>
+                    <span th:if="${item.current}" class="active" th:text="${item.label}">Current</span>
+                </li>
+            </ul>
+        </div>
+    </div>
     
     <!-- Scripts Fragment -->
     <div th:fragment="scripts">

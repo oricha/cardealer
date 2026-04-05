@@ -1,6 +1,7 @@
 package com.cardealer.controller;
 
 import com.cardealer.dto.CarDTO;
+import com.cardealer.dto.BreadcrumbItem;
 import com.cardealer.dto.DashboardStats;
 import com.cardealer.model.Car;
 import com.cardealer.model.Dealer;
@@ -60,6 +61,13 @@ public class DashboardController {
             model.addAttribute("totalViews", stats.getTotalViews());
             model.addAttribute("totalListings", stats.getTotalListings());
             model.addAttribute("recentListings", stats.getRecentListings());
+            model.addAttribute("breadcrumbItems", List.of(
+                new BreadcrumbItem("Inicio", "/", false),
+                new BreadcrumbItem("Dashboard", null, true)
+            ));
+            model.addAttribute("pageDescription", "Panel de control del vendedor con estadísticas, listados y actividad reciente.");
+            model.addAttribute("pageKeywords", "dashboard vendedor, estadísticas coches, panel concesionario");
+            model.addAttribute("ogTitle", "Dashboard");
             
             return "dashboard";
         }
@@ -89,6 +97,13 @@ public class DashboardController {
         model.addAttribute("totalViews", stats.getTotalViews());
         model.addAttribute("totalListings", stats.getTotalListings());
         model.addAttribute("recentListings", stats.getRecentListings());
+        model.addAttribute("breadcrumbItems", List.of(
+            new BreadcrumbItem("Inicio", "/", false),
+            new BreadcrumbItem("Dashboard", null, true)
+        ));
+        model.addAttribute("pageDescription", "Panel de control del vendedor con estadísticas, listados y actividad reciente.");
+        model.addAttribute("pageKeywords", "dashboard vendedor, estadísticas coches, panel concesionario");
+        model.addAttribute("ogTitle", "Dashboard");
         
         log.info("Dashboard loaded successfully for dealer: {}", dealer.getName());
         return "dashboard";

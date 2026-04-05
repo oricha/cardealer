@@ -5,6 +5,8 @@ import com.cardealer.model.Dealer;
 import com.cardealer.model.User;
 import com.cardealer.repository.DealerRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ public class DealerService {
     /**
      * Create a new dealer profile
      */
+    @CacheEvict(value = "activeDealers", allEntries = true)
     public Dealer createDealer(Dealer dealer, User user) {
         log.info("Creating dealer profile for user: {}", user.getEmail());
         
@@ -37,6 +40,7 @@ public class DealerService {
     /**
      * Update dealer information
      */
+    @CacheEvict(value = "activeDealers", allEntries = true)
     public Dealer updateDealer(Long id, Dealer dealerDetails) {
         log.info("Updating dealer with ID: {}", id);
         
@@ -71,6 +75,7 @@ public class DealerService {
     /**
      * Get all active dealers
      */
+    @Cacheable("activeDealers")
     public List<Dealer> getAllActiveDealers() {
         log.debug("Fetching all active dealers");
         return dealerRepository.findByActiveTrue();
@@ -88,6 +93,7 @@ public class DealerService {
     /**
      * Deactivate dealer (soft delete)
      */
+    @CacheEvict(value = "activeDealers", allEntries = true)
     public void deactivateDealer(Long id) {
         log.info("Deactivating dealer with ID: {}", id);
         
@@ -101,6 +107,7 @@ public class DealerService {
     /**
      * Activate dealer
      */
+    @CacheEvict(value = "activeDealers", allEntries = true)
     public void activateDealer(Long id) {
         log.info("Activating dealer with ID: {}", id);
         

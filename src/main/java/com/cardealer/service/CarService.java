@@ -17,6 +17,8 @@ import com.cardealer.specification.CarSpecification;
 import com.cardealer.util.FileUploadUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -85,6 +87,7 @@ public class CarService {
      * Create a new car
      */
     @Transactional
+    @CacheEvict(value = "latestCars", allEntries = true)
     public Car createCar(CarDTO carDTO, Long dealerId) throws IOException {
         log.info("Creating new car for dealer: {}", dealerId);
         
@@ -110,6 +113,7 @@ public class CarService {
      * Update an existing car
      */
     @Transactional
+    @CacheEvict(value = "latestCars", allEntries = true)
     public Car updateCar(Long id, CarDTO carDTO, Long dealerId) throws IOException {
         log.info("Updating car with id: {} for dealer: {}", id, dealerId);
         
@@ -136,6 +140,7 @@ public class CarService {
      * Delete a car (soft delete)
      */
     @Transactional
+    @CacheEvict(value = "latestCars", allEntries = true)
     public void deleteCar(Long id, Long dealerId) {
         log.info("Deleting car with id: {} for dealer: {}", id, dealerId);
         
@@ -159,6 +164,7 @@ public class CarService {
      * Reactivate a previously deactivated car
      */
     @Transactional
+    @CacheEvict(value = "latestCars", allEntries = true)
     public Car reactivateCar(Long id, Long dealerId) {
         log.info("Reactivating car with id: {} for dealer: {}", id, dealerId);
 
@@ -197,6 +203,7 @@ public class CarService {
     /**
      * Get latest active cars
      */
+    @Cacheable("latestCars")
     public List<Car> getLatestCars() {
         log.info("Fetching latest cars");
         return carRepository.findTop8ByActiveTrueOrderByCreatedAtDesc();

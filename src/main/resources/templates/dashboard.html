@@ -215,15 +215,7 @@
     <main class="main">
 
         <!-- breadcrumb -->
-        <div class="site-breadcrumb" style="background: url(/img/breadcrumb/01.jpg)">
-            <div class="container">
-                <h2 class="breadcrumb-title">Dashboard</h2>
-                <ul class="breadcrumb-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">Dashboard</li>
-                </ul>
-            </div>
-        </div>
+        <div th:replace="~{fragments/header :: breadcrumb('Dashboard', ${breadcrumbItems})}"></div>
         <!-- breadcrumb end -->
 
 
