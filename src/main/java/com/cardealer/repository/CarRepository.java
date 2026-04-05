@@ -15,22 +15,24 @@ import java.util.List;
 public interface CarRepository extends JpaRepository<Car, Long>, JpaSpecificationExecutor<Car> {
     
     // Find cars by make
-    List<Car> findByMakeIgnoreCase(String make);
+    List<Car> findByMakeIgnoreCaseAndActiveTrue(String make);
     
     // Find cars by year
-    List<Car> findByYear(Integer year);
+    List<Car> findByYearAndActiveTrue(Integer year);
     
     // Find cars ordered by price ascending
-    List<Car> findAllByOrderByPriceAsc();
+    List<Car> findAllByActiveTrueOrderByPriceAsc();
     
     // Find cars ordered by price descending
-    List<Car> findAllByOrderByPriceDesc();
+    List<Car> findAllByActiveTrueOrderByPriceDesc();
     
     // Find cars ordered by year descending (newest first)
-    List<Car> findAllByOrderByYearDesc();
+    List<Car> findAllByActiveTrueOrderByYearDesc();
     
     // Find active cars with pagination
     Page<Car> findByActiveTrue(Pageable pageable);
+
+    List<Car> findAllByActiveTrue();
     
     // Find cars by dealer ID ordered by creation date
     List<Car> findByDealerIdOrderByCreatedAtDesc(Long dealerId);
@@ -40,9 +42,14 @@ public interface CarRepository extends JpaRepository<Car, Long>, JpaSpecificatio
     
     // Find latest active cars
     List<Car> findTop8ByActiveTrueOrderByCreatedAtDesc();
+
+    @Query("SELECT DISTINCT c.make FROM Car c WHERE c.active = true ORDER BY c.make")
+    List<String> findDistinctMakesByActiveTrue();
     
     // Count active listings by dealer
     Long countByDealerIdAndActiveTrue(Long dealerId);
+
+    Long countByActiveTrue();
     
     // Sum views by dealer
     @Query("SELECT SUM(c.views) FROM Car c WHERE c.dealer.id = :dealerId")

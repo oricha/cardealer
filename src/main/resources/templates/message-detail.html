@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head('Detalle de Mensaje - Portal de Coches')}"></head>
+
+<body>
+    <nav th:replace="~{fragments/header :: navbar}"></nav>
+
+    <main class="main">
+        <div class="site-breadcrumb" style="background: url(/img/breadcrumb/01.jpg)">
+            <div class="container">
+                <h2 class="breadcrumb-title">Mensaje</h2>
+                <ul class="breadcrumb-menu">
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/dashboard/messages}">Mensajes</a></li>
+                    <li class="active">Detalle</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="user-profile py-120">
+            <div class="container">
+                <div class="user-profile-card">
+                    <h4 class="user-profile-card-title" th:text="${message.subject} ?: 'Consulta sobre vehículo'">Asunto</h4>
+
+                    <div class="mb-4">
+                        <p><strong>De:</strong> <span th:text="${message.sender.name}">Nombre</span></p>
+                        <p><strong>Email:</strong> <span th:text="${message.sender.email}">correo@ejemplo.com</span></p>
+                        <p><strong>Fecha:</strong> <span th:text="${#temporals.format(message.sentAt, 'dd/MM/yyyy HH:mm')}">01/01/2026</span></p>
+                        <p th:if="${message.car != null}">
+                            <strong>Coche:</strong>
+                            <a th:href="@{/cars/{id}(id=${message.car.id})}" th:text="${message.car.make + ' ' + message.car.model}">Vehículo</a>
+                        </p>
+                    </div>
+
+                    <div class="p-4 border rounded mb-4" th:text="${message.content}">
+                        Contenido del mensaje
+                    </div>
+
+                    <form th:action="@{/messages/{id}/reply(id=${message.id})}" method="post">
+                        <div class="form-group">
+                            <label class="form-label">Responder</label>
+                            <textarea name="content" class="form-control" rows="5" placeholder="Escribe tu respuesta"></textarea>
+                        </div>
+                        <button type="submit" class="theme-btn mt-3">Enviar respuesta</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    <div th:replace="~{fragments/footer :: scroll-top}"></div>
+    <div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+
+</html>

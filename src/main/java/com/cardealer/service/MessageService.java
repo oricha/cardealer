@@ -10,6 +10,8 @@ import com.cardealer.repository.MessageRepository;
 import com.cardealer.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -99,6 +101,11 @@ public class MessageService {
     public List<Message> getReceivedMessages(Long userId) {
         log.info("Fetching received messages for user: {}", userId);
         return messageRepository.findByReceiverIdOrderBySentAtDesc(userId);
+    }
+
+    public Page<Message> getReceivedMessages(Long userId, Pageable pageable) {
+        log.info("Fetching paginated received messages for user: {}", userId);
+        return messageRepository.findByReceiverIdOrderBySentAtDesc(userId, pageable);
     }
 
     /**

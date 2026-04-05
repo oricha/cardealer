@@ -1,21 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${isEdit} ? 'Editar Listado' : 'Añadir Listado'">Añadir Listado</title>
-    <link rel="icon" type="image/x-icon" th:href="@{/img/logo/favicon.png}">
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/all-fontawesome.min.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{fragments/header :: head(${isEdit} ? 'Editar Listado - Portal de Coches' : 'Añadir Listado - Portal de Coches')}"></head>
 
 <body>
-    <div class="preloader">
-        <div class="loader-ripple"><div></div><div></div></div>
-    </div>
+    <nav th:replace="~{fragments/header :: navbar}"></nav>
 
     <main class="main">
         <div class="site-breadcrumb" style="background: url(/img/breadcrumb/01.jpg)">
@@ -31,233 +20,169 @@
 
         <div class="user-profile py-120">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="user-profile-wrapper">
-                            <div class="user-profile-card">
-                                <h4 class="user-profile-card-title" th:text="${isEdit} ? 'Editar Listado' : 'Añadir Nuevo Listado'">Añadir Nuevo Listado</h4>
-                                
-                                <!-- Success/Error Messages -->
-                                <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <span th:text="${success}"></span>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
-                                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <span th:text="${error}"></span>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
-                                
-                                <div class="col-lg-12">
-                                    <div class="add-listing-form">
-                                        <form th:action="${isEdit} ? @{/dashboard/listings/edit/{id}(id=${carId})} : @{/dashboard/listings/add}" 
-                                              method="post" 
-                                              th:object="${carDTO}" 
-                                              enctype="multipart/form-data">
-                                            
-                                            <h6 class="mb-3">Información Básica</h6>
-                                            <div class="row align-items-center">
-                                                <!-- Brand -->
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Marca *</label>
-                                                        <input type="text" class="form-control" th:field="*{brand}" 
-                                                               placeholder="Ej: BMW, Mercedes" required>
-                                                        <span class="text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Model -->
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Modelo *</label>
-                                                        <input type="text" class="form-control" th:field="*{model}" 
-                                                               placeholder="Ej: Serie 3, Clase C" required>
-                                                        <span class="text-danger" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Year -->
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Año *</label>
-                                                        <input type="number" class="form-control" th:field="*{year}" 
-                                                               placeholder="2023" min="1900" max="2025" required>
-                                                        <span class="text-danger" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Price -->
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Precio (€) *</label>
-                                                        <input type="number" class="form-control" th:field="*{price}" 
-                                                               placeholder="25000" step="0.01" required>
-                                                        <span class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Mileage -->
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Kilometraje</label>
-                                                        <input type="number" class="form-control" th:field="*{mileage}" 
-                                                               placeholder="50000">
-                                                        <span class="text-danger" th:if="${#fields.hasErrors('mileage')}" th:errors="*{mileage}"></span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Condition -->
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Condición *</label>
-                                                        <select class="form-control" th:field="*{condition}" required>
-                                                            <option value="">Seleccionar</option>
-                                                            <option th:each="cond : ${conditions}" 
-                                                                    th:value="${cond.name()}" 
-                                                                    th:text="${cond.name()}">NUEVO</option>
-                                                        </select>
-                                                        <span class="text-danger" th:if="${#fields.hasErrors('condition')}" th:errors="*{condition}"></span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Body Type -->
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Tipo de Carrocería</label>
-                                                        <select class="form-control" th:field="*{bodyType}">
-                                                            <option value="">Seleccionar</option>
-                                                            <option th:each="type : ${bodyTypes}" 
-                                                                    th:value="${type.name()}" 
-                                                                    th:text="${type.name()}">SEDAN</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Transmission -->
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Transmisión *</label>
-                                                        <select class="form-control" th:field="*{transmission}" required>
-                                                            <option value="">Seleccionar</option>
-                                                            <option th:each="trans : ${transmissions}" 
-                                                                    th:value="${trans.name()}" 
-                                                                    th:text="${trans.name()}">MANUAL</option>
-                                                        </select>
-                                                        <span class="text-danger" th:if="${#fields.hasErrors('transmission')}" th:errors="*{transmission}"></span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Fuel Type -->
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Tipo de Combustible *</label>
-                                                        <select class="form-control" th:field="*{fuelType}" required>
-                                                            <option value="">Seleccionar</option>
-                                                            <option th:each="fuel : ${fuelTypes}" 
-                                                                    th:value="${fuel.name()}" 
-                                                                    th:text="${fuel.name()}">GASOLINA</option>
-                                                        </select>
-                                                        <span class="text-danger" th:if="${#fields.hasErrors('fuelType')}" th:errors="*{fuelType}"></span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Color -->
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Color</label>
-                                                        <input type="text" class="form-control" th:field="*{color}" 
-                                                               placeholder="Rojo, Blanco, Negro">
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Doors -->
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Puertas</label>
-                                                        <input type="number" class="form-control" th:field="*{doors}" 
-                                                               placeholder="4" min="2" max="6">
-                                                        <span class="text-danger" th:if="${#fields.hasErrors('doors')}" th:errors="*{doors}"></span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Engine -->
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Motor</label>
-                                                        <input type="text" class="form-control" th:field="*{engine}" 
-                                                               placeholder="2.0 TDI">
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Description -->
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label>Descripción</label>
-                                                        <textarea class="form-control" th:field="*{description}" 
-                                                                  placeholder="Descripción detallada del vehículo" 
-                                                                  rows="5"></textarea>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Features -->
-                                                <h6 class="fw-bold mt-4 mb-3">Características</h6>
-                                                <div th:each="feature, iterStat : ${availableFeatures}" class="col-6 col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" 
-                                                               th:field="*{features}" 
-                                                               th:value="${feature}" 
-                                                               th:id="'feature' + ${iterStat.index}">
-                                                        <label class="form-check-label" th:for="'feature' + ${iterStat.index}" th:text="${feature}">
-                                                            Feature
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Images -->
-                                                <h6 class="fw-bold mt-4 mb-3">Imágenes</h6>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label>Subir Imágenes *</label>
-                                                        <input type="file" class="form-control" name="imageFiles" 
-                                                               multiple accept="image/*" th:required="${!isEdit}">
-                                                        <small class="form-text text-muted">Formatos permitidos: JPG, PNG, WebP. Máximo 10MB por imagen.</small>
-                                                    </div>
-                                                    
-                                                    <!-- Show existing images when editing -->
-                                                    <div th:if="${isEdit and carDTO.existingImages != null and !carDTO.existingImages.isEmpty()}" class="mt-3">
-                                                        <label>Imágenes Actuales:</label>
-                                                        <div class="row">
-                                                            <div th:each="img : ${carDTO.existingImages}" class="col-md-3 mb-2">
-                                                                <img th:src="@{'/uploads/' + ${img}}" class="img-thumbnail" alt="Car image">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Submit Button -->
-                                                <div class="col-lg-12 mt-4">
-                                                    <button type="submit" class="theme-btn">
-                                                        <span class="far fa-save"></span> 
-                                                        <span th:text="${isEdit} ? 'Actualizar Listado' : 'Guardar y Publicar'">Guardar y Publicar</span>
-                                                    </button>
-                                                    <a th:href="@{/dashboard/listings}" class="btn btn-secondary ms-2">
-                                                        <span class="far fa-times"></span> Cancelar
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </form>
+                <div class="user-profile-card">
+                    <h4 class="user-profile-card-title" th:text="${isEdit} ? 'Editar listado' : 'Crear nuevo listado'">Crear</h4>
+
+                    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                    <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                        Revisa los campos marcados antes de continuar.
+                    </div>
+
+                    <form th:action="${isEdit} ? @{/dashboard/listings/edit/{id}(id=${carId})} : @{/dashboard/listings/add}"
+                          th:object="${carDTO}"
+                          method="post"
+                          enctype="multipart/form-data">
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <label class="form-label">Marca *</label>
+                                <input th:field="*{brand}" class="form-control" th:classappend="${#fields.hasErrors('brand')} ? ' is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{brand}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Modelo *</label>
+                                <input th:field="*{model}" class="form-control" th:classappend="${#fields.hasErrors('model')} ? ' is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{model}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Año *</label>
+                                <input type="number" th:field="*{year}" class="form-control" th:classappend="${#fields.hasErrors('year')} ? ' is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{year}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Precio *</label>
+                                <input type="number" step="0.01" th:field="*{price}" class="form-control" th:classappend="${#fields.hasErrors('price')} ? ' is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{price}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Kilometraje</label>
+                                <input type="number" th:field="*{mileage}" class="form-control" th:classappend="${#fields.hasErrors('mileage')} ? ' is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{mileage}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Condición *</label>
+                                <select th:field="*{condition}" class="form-control" th:classappend="${#fields.hasErrors('condition')} ? ' is-invalid'">
+                                    <option value="">Seleccionar</option>
+                                    <option th:each="condition : ${conditions}" th:value="${condition.name()}" th:text="${condition}">NUEVO</option>
+                                </select>
+                                <div class="invalid-feedback" th:errors="*{condition}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Carrocería</label>
+                                <select th:field="*{bodyType}" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                    <option th:each="bodyType : ${bodyTypes}" th:value="${bodyType.name()}" th:text="${bodyType}">SUV</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Transmisión *</label>
+                                <select th:field="*{transmission}" class="form-control" th:classappend="${#fields.hasErrors('transmission')} ? ' is-invalid'">
+                                    <option value="">Seleccionar</option>
+                                    <option th:each="transmission : ${transmissions}" th:value="${transmission.name()}" th:text="${transmission}">MANUAL</option>
+                                </select>
+                                <div class="invalid-feedback" th:errors="*{transmission}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Combustible *</label>
+                                <select th:field="*{fuelType}" class="form-control" th:classappend="${#fields.hasErrors('fuelType')} ? ' is-invalid'">
+                                    <option value="">Seleccionar</option>
+                                    <option th:each="fuelType : ${fuelTypes}" th:value="${fuelType.name()}" th:text="${fuelType}">GASOLINA</option>
+                                </select>
+                                <div class="invalid-feedback" th:errors="*{fuelType}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Color</label>
+                                <input th:field="*{color}" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Puertas</label>
+                                <input type="number" th:field="*{doors}" class="form-control" th:classappend="${#fields.hasErrors('doors')} ? ' is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{doors}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Motor</label>
+                                <input th:field="*{engine}" class="form-control">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Descripción</label>
+                                <textarea th:field="*{description}" class="form-control" rows="5"></textarea>
+                            </div>
+
+                            <div class="col-12">
+                                <h6 class="mb-3">Características</h6>
+                                <div class="row g-2">
+                                    <div class="col-md-4" th:each="feature, iterStat : ${availableFeatures}">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                   th:field="*{features}"
+                                                   th:value="${feature}"
+                                                   th:id="'feature-' + ${iterStat.index}">
+                                            <label class="form-check-label"
+                                                   th:for="'feature-' + ${iterStat.index}"
+                                                   th:text="${feature}">Feature</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-12">
+                                <h6 class="mb-3">Imágenes</h6>
+                                <input type="file" class="form-control" name="imageFiles" id="imageFiles" multiple accept="image/*" th:required="${!isEdit}">
+                                <small class="text-muted">Puedes subir varias imágenes. Formatos: JPG, PNG y WebP.</small>
+                            </div>
+
+                            <div class="col-12" th:if="${isEdit and carDTO.existingImages != null}">
+                                <div class="row g-3">
+                                    <div class="col-md-3" th:each="img, iterStat : ${carDTO.existingImages}">
+                                        <input type="hidden" name="existingImages" th:value="${img}">
+                                        <img th:src="@{'/uploads/' + ${img}}" class="img-thumbnail" alt="Imagen actual">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row g-3" id="imagePreview"></div>
+                            </div>
+
+                            <div class="col-12">
+                                <button type="submit" class="theme-btn">
+                                    <span th:text="${isEdit} ? 'Actualizar listado' : 'Guardar y publicar'">Guardar</span>
+                                </button>
+                                <a th:href="@{/dashboard/listings}" class="theme-btn theme-btn2 ms-2">Cancelar</a>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </main>
 
-    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
-    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/js/main.js}"></script>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    <div th:replace="~{fragments/footer :: scroll-top}"></div>
+    <div th:replace="~{fragments/header :: scripts}"></div>
+    <script>
+        const imageInput = document.getElementById('imageFiles');
+        const previewContainer = document.getElementById('imagePreview');
+
+        if (imageInput && previewContainer) {
+            imageInput.addEventListener('change', () => {
+                previewContainer.innerHTML = '';
+                Array.from(imageInput.files || []).forEach(file => {
+                    if (!file.type.startsWith('image/')) {
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = event => {
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'col-md-3';
+                        wrapper.innerHTML = `<img src="${event.target.result}" class="img-thumbnail" alt="Vista previa">`;
+                        previewContainer.appendChild(wrapper);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+        }
+    </script>
 </body>
+
 </html>

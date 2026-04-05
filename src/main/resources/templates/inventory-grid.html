@@ -143,6 +143,16 @@
                                     </ul>
                                 </div>
                                 <div class="car-widget">
+                                    <h4 class="car-widget-title">Body Type</h4>
+                                    <select name="bodyType" class="form-control">
+                                        <option value="">All Body Types</option>
+                                        <option th:each="bodyType : ${bodyTypes}"
+                                                th:value="${bodyType.name()}"
+                                                th:selected="${filters.bodyType == bodyType.name()}"
+                                                th:text="${bodyType}">SUV</option>
+                                    </select>
+                                </div>
+                                <div class="car-widget">
                                     <button type="submit" class="theme-btn w-100">
                                         <i class="far fa-filter"></i> Apply Filters
                                     </button>
@@ -161,17 +171,26 @@
                                     <span class="far fa-arrows-repeat"></span> Compare (<span id="compareCount">0</span>)
                                 </button>
                                 <div class="car-sort-list-grid">
-                                    <a class="car-sort-grid active" th:href="@{/cars}"><i class="far fa-grid-2"></i></a>
-                                    <a class="car-sort-list" th:href="@{/cars/list}"><i class="far fa-list-ul"></i></a>
+                                    <a class="car-sort-grid active"
+                                       th:href="@{/cars(brands=${filters.brands}, minPrice=${filters.minPrice}, maxPrice=${filters.maxPrice}, transmission=${filters.transmission}, fuelType=${filters.fuelType}, bodyType=${filters.bodyType}, condition=${filters.condition}, searchText=${filters.searchText}, sortBy=${filters.sortBy})}">
+                                        <i class="far fa-grid-2"></i>
+                                    </a>
+                                    <a class="car-sort-list"
+                                       th:href="@{/cars/list(brands=${filters.brands}, minPrice=${filters.minPrice}, maxPrice=${filters.maxPrice}, transmission=${filters.transmission}, fuelType=${filters.fuelType}, bodyType=${filters.bodyType}, condition=${filters.condition}, searchText=${filters.searchText}, sortBy=${filters.sortBy})}">
+                                        <i class="far fa-list-ul"></i>
+                                    </a>
                                 </div>
                                 <div class="col-md-3 car-sort-box">
                                     <form th:action="@{/cars}" method="get">
-                                        <input type="hidden" th:each="brand : ${filters.brands}"
+                                        <input type="hidden" th:if="${filters.brands != null}" th:each="brand : ${filters.brands}"
                                                name="brands" th:value="${brand}">
                                         <input type="hidden" name="minPrice" th:value="${filters.minPrice}">
                                         <input type="hidden" name="maxPrice" th:value="${filters.maxPrice}">
                                         <input type="hidden" name="transmission" th:value="${filters.transmission}">
                                         <input type="hidden" name="fuelType" th:value="${filters.fuelType}">
+                                        <input type="hidden" name="bodyType" th:value="${filters.bodyType}">
+                                        <input type="hidden" name="condition" th:value="${filters.condition}">
+                                        <input type="hidden" name="searchText" th:value="${filters.searchText}">
                                         <select name="sortBy" class="select" onchange="this.form.submit()">
                                             <option value="">Sort By Default</option>
                                             <option value="date_desc" th:selected="${filters.sortBy == 'date_desc'}">Sort By Latest</option>
@@ -242,7 +261,9 @@
                                            th:href="@{/cars(page=${currentPage - 1}, size=12,
                                                    brands=${filters.brands}, minPrice=${filters.minPrice},
                                                    maxPrice=${filters.maxPrice}, transmission=${filters.transmission},
-                                                   fuelType=${filters.fuelType}, sortBy=${filters.sortBy})}"
+                                                   fuelType=${filters.fuelType}, bodyType=${filters.bodyType},
+                                                   condition=${filters.condition}, searchText=${filters.searchText},
+                                                   sortBy=${filters.sortBy})}"
                                            aria-label="Previous">
                                             <span aria-hidden="true"><i class="far fa-arrow-left"></i></span>
                                         </a>
@@ -253,7 +274,9 @@
                                            th:href="@{/cars(page=${i}, size=12,
                                                    brands=${filters.brands}, minPrice=${filters.minPrice},
                                                    maxPrice=${filters.maxPrice}, transmission=${filters.transmission},
-                                                   fuelType=${filters.fuelType}, sortBy=${filters.sortBy})}"
+                                                   fuelType=${filters.fuelType}, bodyType=${filters.bodyType},
+                                                   condition=${filters.condition}, searchText=${filters.searchText},
+                                                   sortBy=${filters.sortBy})}"
                                            th:text="${i + 1}">1</a>
                                     </li>
                                     <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
@@ -261,7 +284,9 @@
                                            th:href="@{/cars(page=${currentPage + 1}, size=12,
                                                    brands=${filters.brands}, minPrice=${filters.minPrice},
                                                    maxPrice=${filters.maxPrice}, transmission=${filters.transmission},
-                                                   fuelType=${filters.fuelType}, sortBy=${filters.sortBy})}"
+                                                   fuelType=${filters.fuelType}, bodyType=${filters.bodyType},
+                                                   condition=${filters.condition}, searchText=${filters.searchText},
+                                                   sortBy=${filters.sortBy})}"
                                            aria-label="Next">
                                             <span aria-hidden="true"><i class="far fa-arrow-right"></i></span>
                                         </a>

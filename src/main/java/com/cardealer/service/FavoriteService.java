@@ -9,6 +9,8 @@ import com.cardealer.repository.FavoriteRepository;
 import com.cardealer.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,6 +86,11 @@ public class FavoriteService {
         return favorites.stream()
             .map(Favorite::getCar)
             .collect(Collectors.toList());
+    }
+
+    public Page<Favorite> getUserFavorites(Long userId, Pageable pageable) {
+        log.info("Fetching paginated favorites for user: {}", userId);
+        return favoriteRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
     }
 
     /**

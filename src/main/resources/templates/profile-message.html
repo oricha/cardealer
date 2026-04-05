@@ -1,21 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mensajes</title>
-    <link rel="icon" type="image/x-icon" th:href="@{/img/logo/favicon.png}">
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/all-fontawesome.min.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{fragments/header :: head('Mensajes - Portal de Coches')}"></head>
 
 <body>
-    <div class="preloader">
-        <div class="loader-ripple"><div></div><div></div></div>
-    </div>
+    <nav th:replace="~{fragments/header :: navbar}"></nav>
 
     <main class="main">
         <div class="site-breadcrumb" style="background: url(/img/breadcrumb/01.jpg)">
@@ -31,98 +20,77 @@
 
         <div class="user-profile py-120">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="user-profile-wrapper">
-                            <div class="user-profile-card profile-message">
-                                <div class="user-profile-card-header">
-                                    <h4 class="user-profile-card-title">Mensajes Recibidos</h4>
-                                </div>
-                                
-                                <!-- Success/Error Messages -->
-                                <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <span th:text="${success}"></span>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
-                                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <span th:text="${error}"></span>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="table-responsive">
-                                            <table class="table text-nowrap">
-                                                <thead>
-                                                    <tr>
-                                                        <th>De</th>
-                                                        <th>Asunto</th>
-                                                        <th>Coche</th>
-                                                        <th>Fecha</th>
-                                                        <th>Estado</th>
-                                                        <th>Acciones</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr th:if="${messages == null or messages.isEmpty()}">
-                                                        <td colspan="6" class="text-center py-5">
-                                                            <p class="text-muted">No tienes mensajes aún.</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr th:each="message : ${messages}">
-                                                        <td>
-                                                            <div class="table-list-info">
-                                                                <div class="table-list-content">
-                                                                    <h6 th:text="${message.sender.name}">Sender Name</h6>
-                                                                    <span th:text="${message.sender.email}">sender@email.com</span>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td th:text="${message.subject}">Subject</td>
-                                                        <td>
-                                                            <a th:if="${message.car != null}" 
-                                                               th:href="@{/cars/{id}(id=${message.car.id})}"
-                                                               th:text="${message.car.make + ' ' + message.car.model}">
-                                                                Car Name
-                                                            </a>
-                                                            <span th:unless="${message.car != null}" class="text-muted">-</span>
-                                                        </td>
-                                                        <td th:text="${#temporals.format(message.sentAt, 'dd/MM/yyyy HH:mm')}">Date</td>
-                                                        <td>
-                                                            <span th:if="${message.read}" class="badge badge-secondary">Leído</span>
-                                                            <span th:unless="${message.read}" class="badge badge-primary">No leído</span>
-                                                        </td>
-                                                        <td>
-                                                            <a th:href="@{/messages/{id}(id=${message.id})}" 
-                                                               class="btn btn-outline-secondary btn-sm rounded-2" 
-                                                               data-bs-toggle="tooltip" 
-                                                               title="Ver Mensaje">
-                                                                <i class="far fa-eye"></i> Ver
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="user-profile-card profile-message">
+                    <div class="user-profile-card-header">
+                        <h4 class="user-profile-card-title">Mensajes recibidos</h4>
+                        <span class="badge bg-primary" th:text="${unreadCount} + ' sin leer'">0 sin leer</span>
+                    </div>
+
+                    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <div class="table-responsive">
+                        <table class="table text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>De</th>
+                                    <th>Asunto</th>
+                                    <th>Coche</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:if="${messages == null or messages.isEmpty()}">
+                                    <td colspan="6" class="text-center py-5 text-muted">No tienes mensajes aún.</td>
+                                </tr>
+                                <tr th:each="message : ${messages}">
+                                    <td>
+                                        <strong th:text="${message.sender.name}">Nombre</strong>
+                                        <div class="text-muted small" th:text="${message.sender.email}">mail@correo.com</div>
+                                    </td>
+                                    <td th:text="${message.subject} ?: 'Consulta sobre vehículo'">Asunto</td>
+                                    <td>
+                                        <a th:if="${message.car != null}"
+                                           th:href="@{/cars/{id}(id=${message.car.id})}"
+                                           th:text="${message.car.make + ' ' + message.car.model}">Vehículo</a>
+                                        <span th:unless="${message.car != null}" class="text-muted">Sin coche asociado</span>
+                                    </td>
+                                    <td th:text="${#temporals.format(message.sentAt, 'dd/MM/yyyy HH:mm')}">01/01/2026</td>
+                                    <td>
+                                        <span th:if="${message.read}" class="badge bg-secondary">Leído</span>
+                                        <span th:unless="${message.read}" class="badge bg-primary">No leído</span>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/messages/{id}(id=${message.id})}" class="theme-btn theme-btn2">Ver</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination-area" th:if="${totalPages > 1}">
+                        <ul class="pagination">
+                            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                                <a class="page-link" th:href="@{/dashboard/messages(page=${currentPage - 1}, size=10)}"><i class="far fa-arrow-left"></i></a>
+                            </li>
+                            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage} ? 'active'">
+                                <a class="page-link" th:href="@{/dashboard/messages(page=${i}, size=10)}" th:text="${i + 1}">1</a>
+                            </li>
+                            <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                                <a class="page-link" th:href="@{/dashboard/messages(page=${currentPage + 1}, size=10)}"><i class="far fa-arrow-right"></i></a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
-    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/js/main.js}"></script>
-    <script>
-        // Initialize tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-    </script>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    <div th:replace="~{fragments/footer :: scroll-top}"></div>
+    <div th:replace="~{fragments/header :: scripts}"></div>
 </body>
+
 </html>

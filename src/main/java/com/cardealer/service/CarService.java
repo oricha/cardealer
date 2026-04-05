@@ -14,6 +14,7 @@ import com.cardealer.model.enums.TransmissionType;
 import com.cardealer.repository.CarRepository;
 import com.cardealer.repository.DealerRepository;
 import com.cardealer.specification.CarSpecification;
+import com.cardealer.util.FileUploadUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +38,7 @@ public class CarService {
 
     private final CarRepository carRepository;
     private final DealerRepository dealerRepository;
+    private final FileUploadUtil fileUploadUtil;
 
     /**
      * Find cars with filters and pagination
@@ -81,7 +85,7 @@ public class CarService {
      * Create a new car
      */
     @Transactional
-    public Car createCar(CarDTO carDTO, Long dealerId) {
+    public Car createCar(CarDTO carDTO, Long dealerId) throws IOException {
         log.info("Creating new car for dealer: {}", dealerId);
         
         // Validate dealer exists
@@ -94,6 +98,7 @@ public class CarService {
         car.setDealer(dealer);
         car.setActive(true);
         car.setViews(0);
+        handleImages(carDTO, car, false);
         
         Car savedCar = carRepository.save(car);
         log.info("Car created successfully with id: {}", savedCar.getId());
@@ -105,7 +110,7 @@ public class CarService {
      * Update an existing car
      */
     @Transactional
-    public Car updateCar(Long id, CarDTO carDTO, Long dealerId) {
+    public Car updateCar(Long id, CarDTO carDTO, Long dealerId) throws IOException {
         log.info("Updating car with id: {} for dealer: {}", id, dealerId);
         
         Car car = carRepository.findById(id)
@@ -119,6 +124,7 @@ public class CarService {
         
         // Update car fields
         mapDtoToEntity(carDTO, car);
+        handleImages(carDTO, car, true);
         
         Car updatedCar = carRepository.save(car);
         log.info("Car updated successfully: {}", updatedCar.getId());
@@ -147,6 +153,25 @@ public class CarService {
         carRepository.save(car);
         
         log.info("Car soft deleted successfully: {}", id);
+    }
+
+    /**
+     * Reactivate a previously deactivated car
+     */
+    @Transactional
+    public Car reactivateCar(Long id, Long dealerId) {
+        log.info("Reactivating car with id: {} for dealer: {}", id, dealerId);
+
+        Car car = carRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Coche no encontrado con id: " + id));
+
+        if (!car.getDealer().getId().equals(dealerId)) {
+            log.error("Unauthorized attempt to reactivate car {} by dealer {}", id, dealerId);
+            throw new UnauthorizedException("No tienes permisos para reactivar este coche");
+        }
+
+        car.setActive(true);
+        return carRepository.save(car);
     }
 
     /**
@@ -203,7 +228,7 @@ public class CarService {
      * Get all cars (for backward compatibility)
      */
     public List<Car> getAllCars() {
-        return carRepository.findAll();
+        return carRepository.findAllByActiveTrue();
     }
 
     /**
@@ -225,35 +250,35 @@ public class CarService {
      * Get cars by make
      */
     public List<Car> getCarsByMake(String make) {
-        return carRepository.findByMakeIgnoreCase(make);
+        return carRepository.findByMakeIgnoreCaseAndActiveTrue(make);
     }
 
     /**
      * Get cars by year
      */
     public List<Car> getCarsByYear(Integer year) {
-        return carRepository.findByYear(year);
+        return carRepository.findByYearAndActiveTrue(year);
     }
 
     /**
      * Get cars ordered by price (ascending)
      */
     public List<Car> getCarsOrderedByPriceAsc() {
-        return carRepository.findAllByOrderByPriceAsc();
+        return carRepository.findAllByActiveTrueOrderByPriceAsc();
     }
 
     /**
      * Get cars ordered by price (descending)
      */
     public List<Car> getCarsOrderedByPriceDesc() {
-        return carRepository.findAllByOrderByPriceDesc();
+        return carRepository.findAllByActiveTrueOrderByPriceDesc();
     }
 
     /**
      * Get cars ordered by year (newest first)
      */
     public List<Car> getCarsOrderedByYearDesc() {
-        return carRepository.findAllByOrderByYearDesc();
+        return carRepository.findAllByActiveTrueOrderByYearDesc();
     }
 
     /**
@@ -268,7 +293,11 @@ public class CarService {
      * Get total count of cars
      */
     public long getTotalCarCount() {
-        return carRepository.count();
+        return carRepository.countByActiveTrue();
+    }
+
+    public List<String> getAvailableBrands() {
+        return carRepository.findDistinctMakesByActiveTrue();
     }
 
     // Helper methods
@@ -309,6 +338,33 @@ public class CarService {
         // Handle images - will be set separately by FileUploadUtil
         if (dto.getExistingImages() != null) {
             car.setImages(dto.getExistingImages());
+        }
+    }
+
+    private void handleImages(CarDTO dto, Car car, boolean isUpdate) throws IOException {
+        List<String> images = dto.getExistingImages() != null
+            ? new java.util.ArrayList<>(dto.getExistingImages())
+            : new java.util.ArrayList<>();
+
+        List<MultipartFile> imageFiles = dto.getImageFiles();
+        if (imageFiles != null && !imageFiles.isEmpty()) {
+            for (MultipartFile file : imageFiles) {
+                if (file != null && !file.isEmpty()) {
+                    images.add(fileUploadUtil.saveFile(file));
+                }
+            }
+        }
+
+        if (!isUpdate && images.isEmpty()) {
+            throw new IllegalArgumentException("Debe subir al menos una imagen");
+        }
+
+        if (isUpdate && images.isEmpty() && (car.getImages() == null || car.getImages().isEmpty())) {
+            throw new IllegalArgumentException("Debe mantener o subir al menos una imagen");
+        }
+
+        if (!images.isEmpty()) {
+            car.setImages(images);
         }
     }
 
