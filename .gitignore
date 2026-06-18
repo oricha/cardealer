@@ -84,3 +84,6 @@ application-dev.properties
 .claude/
 CLAUDE.md
 AGENTS.md
+.metals/*
+/.metals
+.metals/metals.lock.db
